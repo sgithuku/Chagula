@@ -36,3 +36,11 @@ model Session {
   publicData         String?
   privateData        String?
 }
+
+model Meal {
+  id        Int      @default(autoincrement()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name               String?
+  category           String?
+}
