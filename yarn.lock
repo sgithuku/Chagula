@@ -1157,6 +1157,38 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@dnd-kit/accessibility@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/accessibility/-/accessibility-1.0.0.tgz#306726518b89d588082f27a6ed9e4aa2cc145a34"
+  integrity sha512-jigv1H7IleOTbtsYoErEwq35EtTGBdSWGKuHt/UVtRRV4qJJXP8+/Wm/glUyz/ryT2dhlGU1ty7v5gsr3zRiQA==
+  dependencies:
+    tslib "^2.0.0"
+
+"@dnd-kit/core@1.0.0", "@dnd-kit/core@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/core/-/core-1.0.0.tgz#05357d637739ea413c7e9b4917732eec8c209e7b"
+  integrity sha512-3w1q0ez6Pzy7rz5c20MvarKlNPQPazRWzciVSLYdXt7SziQiBEMC5WdwyZR4lp9YYgx6alPLUkUUiLvBSKtDvg==
+  dependencies:
+    "@dnd-kit/accessibility" "^1.0.0"
+    "@dnd-kit/utilities" "^1.0.0"
+    tslib "^2.0.0"
+
+"@dnd-kit/sortable@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/sortable/-/sortable-1.0.0.tgz#72de3f9a7f53aa0dc4cf599125828a9113a872ed"
+  integrity sha512-sAaJLMqr1EGOwV0+U3Djsz5roBD8KmMba1YAJoeCTxKQC4bFLBxJBLtBDTigGGNcQGiCENs5h3cWRXQu6p4vig==
+  dependencies:
+    "@dnd-kit/core" "^1.0.0"
+    "@dnd-kit/utilities" "^1.0.0"
+    tslib "^2.0.0"
+
+"@dnd-kit/utilities@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/utilities/-/utilities-1.0.0.tgz#175a203f0cd2fc1c7d09f9a92edf37b4c03d9a04"
+  integrity sha512-ukMGUI5Op500zn6+YhP5vL777ieBYmZ0SZYI3XfoPFtcGOkM/kKKeZECY37QJMbP6b36QqcHRVK1bYJHZBqIVg==
+  dependencies:
+    tslib "^2.0.0"
+
 "@emotion/babel-plugin@^11.0.0":
   version "11.1.2"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.1.2.tgz#68fe1aa3130099161036858c64ee92056c6730b7"
