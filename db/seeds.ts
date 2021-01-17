@@ -1,5 +1,4 @@
 import db from "./index"
-
 /*
  * This seed function is executed when you run `blitz db seed`.
  *
@@ -66,12 +65,22 @@ const choices = [
   { name: "Banging potatoes and puri", category: "indian" },
 ]
 
+const days = [
+  { name: "Sunday" },
+  { name: "Monday" },
+  { name: "Tuesday" },
+  { name: "Wednesday" },
+  { name: "Thursday" },
+  { name: "Friday" },
+  { name: "Saturday" },
+]
+
 const seed = async () => {
-  for (let i = 0; i < choices.length; i++) {
-    await db.meal.create({
+  for (let i = 0; i < days.length; i++) {
+    await db.day.create({
       data: {
-        name: `${choices[i].name}`,
-        category: `${choices[i].category}`,
+        name: `${days[i].name}`,
+        // category: `${choices[i].category}`,
       },
     })
   }
