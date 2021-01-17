@@ -2,12 +2,14 @@ import React, { Suspense, useState, useReducer, useEffect } from "react"
 import Layout from "app/layouts/Layout"
 import { Link, usePaginatedQuery, useRouter, BlitzPage, useQuery } from "blitz"
 import getMeals from "app/meals/queries/getMeals"
-import { List, ListItem, ListIcon, Container, Button, Box, Heading } from "@chakra-ui/react"
+import { List, ListItem, ListIcon, Container, Button, Box, forwardRef } from "@chakra-ui/react"
 import { CaretRight } from "phosphor-react"
 import Nav from "../../../components/Nav"
 
 import SearchBar from "../../../components/SearchBar"
 import Filters from "../../../components/Filters"
+
+import { DragDropContext, Droppable } from "react-beautiful-dnd"
 
 const ITEMS_PER_PAGE = 150
 
@@ -70,6 +72,13 @@ export const MealsList = ({ allMeals }) => {
     }
   }, [filters])
 
+  const onDragStart = () => {
+    console.log("drag started")
+  }
+  const onDragEnd = () => {
+    console.log("drag ended")
+  }
+
   return (
     <Container width="100%" maxW="100%" justifyContent="flex-start">
       <SearchBar onSearch={searchAction} customColor={"gray.500"} />
@@ -87,25 +96,37 @@ export const MealsList = ({ allMeals }) => {
         </Link>
       </Button>
       <Box d="flex" flexDir="row" justifyContent="flex-start">
-        <List spacing={3} width="md">
-          {searchResults.map((meal) => (
-            <ListItem
-              key={meal.id}
-              id={meal.id}
-              disabled={filters.size !== 0}
-              borderWidth="1px"
-              borderRadius="lg"
-              boxShadow="sm"
-              p="3"
-              _hover={{ bgColor: "gray.900", color: "green.50" }}
-            >
-              <ListIcon as={CaretRight} color="green.500" />
-              <Link href={`/meals/${meal.id}`}>
-                <a>{meal.name}</a>
-              </Link>
-            </ListItem>
-          ))}
-        </List>
+        <DragDropContext onDragStart={() => console.log("drag started")} onDragEnd={onDragEnd}>
+          <Droppable droppableId={"longlist"}>
+            {(provided) => (
+              <List spacing={3} width="md" {...provided.droppableProps} ref={provided.innerRef}>
+                {searchResults.map((meal, index) => (
+                  <ListItem
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    ref={provided.innerRef}
+                    draggableId={meal.id}
+                    index={index}
+                    key={meal.id}
+                    id={meal.id}
+                    disabled={filters.size !== 0}
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    boxShadow="sm"
+                    p="3"
+                    _hover={{ bgColor: "gray.900", color: "green.50" }}
+                  >
+                    <ListIcon as={CaretRight} color="green.500" />
+                    <Link href={`/meals/${meal.id}`}>
+                      <a>{meal.name}</a>
+                    </Link>
+                  </ListItem>
+                ))}
+                {provided.placeholder}
+              </List>
+            )}
+          </Droppable>
+        </DragDropContext>
       </Box>
 
       <Button disabled={page === 0} onClick={goToPreviousPage}>
