@@ -1,5 +1,5 @@
 {
-  "name": "Chagula",
+  "name": "chagula",
   "version": "1.0.0",
   "scripts": {
     "start": "blitz start",

@@ -2,63 +2,58 @@ import { Link, BlitzPage, useMutation, useQuery, useRouter, useParam } from "bli
 import Layout from "app/layouts/Layout"
 import logout from "app/auth/mutations/logout"
 import { useCurrentUser } from "app/hooks/useCurrentUser"
-import { Heading, Container, Box, Text, Image, Button, ButtonGroup } from "@chakra-ui/react"
+import updateMeal from "app/meals/mutations/updateMeal"
+
+import {
+  Heading,
+  Container,
+  Box,
+  Text,
+  Image,
+  Button,
+  ButtonGroup,
+  useColorMode,
+  Icon,
+  IconButton,
+} from "@chakra-ui/react"
 import Nav from "app/components/Nav"
 import getMeal from "../meals/queries/getMeal"
 import getMeals from "../meals/queries/getMeals"
+import { X } from "phosphor-react"
+import MealBlock from "../components/MealBlock"
 
 const Home: BlitzPage = () => {
+  const { colorMode, toggleColorMode } = useColorMode()
   // const router = useRouter()
   // const mealId = useParam("mealId", "number")
-  const [meals] = useQuery(getMeals, { where: {} })
-  const [meal] = useQuery(
-    getMeal,
-    { where: { id: Math.floor(Math.random() * meals.count) } },
-    { refetchOnWindowFocus: false, refetchOnMount: false, staleTime: 3000 }
-  )
+  const [{ meals }] = useQuery(getMeals, { where: {} })
+  const [updateMealMutation] = useMutation(updateMeal)
 
   return (
-    <Container centerContent maxW="100%" h="100vh" justifyContent="space-between" paddingX="0">
+    <Container centerContent maxW="100vw">
       <Nav />
-      <Container centerContent maxW="100%" h="100vh" justifyContent="center" paddingX="0">
-        <Heading as="h2" size="xl">
-          So what should we eat today?
-        </Heading>
-        <Text>Refresh for more options</Text>
-        <Box
-          maxW="md"
-          borderWidth="1px"
-          borderRadius="lg"
-          bg="white"
-          overflow="hidden"
-          marginBottom="1em"
-          boxShadow="xl"
-          justifyContent="center"
-          alignItems="center"
-          m="12"
-        >
-          <Image src={`../${meal.category}.jpg`} alt={"meal picture"} />
-
-          <Box d="flex" flexDir="column">
-            <Box d="flex" alignItems="center" p="3">
-              <Heading as="h4">
-                <Link href={`/meals/${meal.id}`}>{meal.name}</Link>
-              </Heading>
-            </Box>
-            <Box mt="1" as="h6" className="category" p="3">
-              {meal.category?.toUpperCase()}
-            </Box>
-          </Box>
-        </Box>
-
-        <ButtonGroup spacing="6">
-          <Button variant="fill">
-            <Link href="/addmeal">Add meals</Link>
+      <Container maxW="100vw">
+        <Heading as="h2">On the menu</Heading>
+        <ButtonGroup spacing="3" mt="3" mb="3">
+          <Button colorScheme={colorMode === "dark" ? "gray.50" : "white"} p="3" variant="outline">
+            <Link href="/addmeal">Add new meals</Link>
           </Button>
-          <Button variant="fill">
-            <Link href="/meals">Meal list</Link>
+          <Button colorScheme={colorMode === "dark" ? "gray.50" : "white"} p="3" variant="outline">
+            <Link href="/meals">Meal Planner</Link>
           </Button>
         </ButtonGroup>
+
+        <Box
+          d="flex"
+          flexDir="row"
+          justifyContent="flex-start"
+          w="100"
+          flexWrap="wrap"
+          pl="0"
+          ml="0"
+        >
+          {meals.map((meal, index) => meal.selected && <MealBlock meal={meal} />)}
+        </Box>
       </Container>
     </Container>
   )

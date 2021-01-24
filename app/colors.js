@@ -1,6 +1,7 @@
 export const dark = {
   text: "gray.50",
   backgroundColor: "green.900",
+  button: "gray.900",
   link: "",
   linkHover: "",
 }
@@ -8,6 +9,7 @@ export const dark = {
 export const light = {
   text: "gray.900",
   backgroundColor: "gray.50",
+  button: "gray.50",
   link: "",
   linkHover: "",
 }

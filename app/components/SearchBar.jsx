@@ -14,7 +14,7 @@ import {
 
 const SearchBar = ({ onSearch, customColor }) => {
   return (
-    <InputGroup width="md">
+    <InputGroup width="100%">
       <InputLeftElement
         pointerEvents="none"
         children={<Icon as={MagnifyingGlass} color={"white"} />}

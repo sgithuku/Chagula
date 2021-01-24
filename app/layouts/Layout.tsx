@@ -11,7 +11,7 @@ type LayoutProps = {
 const Layout = ({ title, children }: LayoutProps) => {
   const { colorMode, toggleColorMode } = useColorMode()
   return (
-    <Container w="100%" maxW="100%">
+    <Container w="100%" maxW="100%" m="0" p="0">
       <Head>
         <title>{title || "Chagula"}</title>
         <link

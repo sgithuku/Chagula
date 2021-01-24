@@ -17,13 +17,16 @@ const theme = extendTheme({
         color: mode(light.text, dark.text)(props),
         fontFamily: fonts.sans_serif,
         fontSize: "lg",
-        button: {
-          bgColor: "orange.500",
+        Button: {
+          bgColor: mode(light.button, dark.button)(props),
         },
       },
       ".category": {
         bgColor: mode(dark.backgroundColor, light.backgroundColor)(props),
         color: mode(dark.text, light.text)(props),
+      },
+      label: {
+        fontWeight: "bold !important",
       },
     }),
   },

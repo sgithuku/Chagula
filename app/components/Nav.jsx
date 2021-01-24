@@ -51,7 +51,7 @@ function Nav() {
             />
             Meals
           </Link>
-          <Link pr={["3", "6", "12"]} d="flex" alignItems="center" href="/account">
+          {/* <Link pr={["3", "6", "12"]} d="flex" alignItems="center" href="/account">
             <Icon
               aria-label="Account"
               css={{ background: "transparent" }}
@@ -60,7 +60,7 @@ function Nav() {
               mr="3"
             />
             Account
-          </Link>
+          </Link> */}
           <Box d="flex" alignItems="center">
             <FormControl display="flex" alignItems="center">
               <Icon
