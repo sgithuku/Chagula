@@ -1,0 +1,76 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Meal",
+      "field": "timesEaten",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Meal",
+          "field": "timesEaten"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Meal",
+          "field": "timesEaten"
+        },
+        "directive": "default"
+      },
+      "argument": "value",
+      "value": "0"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Meal",
+      "field": "image_url",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Meal",
+      "field": "already_eaten",
+      "type": "Boolean",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Meal",
+          "field": "already_eaten"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Meal",
+          "field": "already_eaten"
+        },
+        "directive": "default"
+      },
+      "argument": "value",
+      "value": "false"
+    }
+  ]
+}
