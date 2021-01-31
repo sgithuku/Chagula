@@ -15,15 +15,15 @@ const NewMealPage: BlitzPage = () => {
 
       <MealForm
         initialValues={{}}
-        onSubmit={async () => {
-          try {
-            const meal = await createMealMutation({ data: { name: "MyName" } })
-            alert("Success!" + JSON.stringify(meal))
-            router.push(`/meals/${meal.id}`)
-          } catch (error) {
-            alert("Error creating meal " + JSON.stringify(error, null, 2))
-          }
-        }}
+        // onSubmit={async () => {
+        //   try {
+        //     const meal = await createMealMutation({ data: { name: "MyName" } })
+        //     alert("Success!" + JSON.stringify(meal))
+        //     router.push(`/meals/${meal.id}`)
+        //   } catch (error) {
+        //     alert("Error creating meal " + JSON.stringify(error, null, 2))
+        //   }
+        // }}
       />
 
       <Box mt="6" mb="6">
