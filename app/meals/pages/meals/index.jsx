@@ -1,6 +1,6 @@
 import React, { Suspense, useState, useReducer, useEffect } from "react"
 import Layout from "app/layouts/Layout"
-import { Link, useRouter, BlitzPage, useQuery, getQueryKey, useMutation } from "blitz"
+import { Link, useRouter, BlitzPage, useQuery, useMutation, setQueryData } from "blitz"
 import getMeals from "app/meals/queries/getMeals"
 import {
   List,
@@ -41,7 +41,7 @@ export const MealsList = (props) => {
   // const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
   // const goToNextPage = () => router.push({ query: { page: page + 1 } })
 
-  const [{ meals, setQueryData }] = useQuery(getMeals, { where: {} })
+  const [{ meals, setQueryData }] = useQuery(getMeals, { where: {} }, {})
   const cuisines = [...new Set(meals.map((item) => item.category))] // [ 'A', 'B']
   // const [cuisineFilter, setCuisineFilter] = useState(null)
 
@@ -104,11 +104,12 @@ export const MealsList = (props) => {
     <Container
       width="100vw"
       maxW="100%"
-      maxH="150vh"
+      // maxH="150vh"
       flexDir="row"
       justifyContent="flex-start"
       d="flex"
       alignItems="flex-start"
+      mb="12"
     >
       <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
         <Box width="md" flexDir="row" justifyContent="flex-start">
@@ -175,10 +176,11 @@ export const MealsList = (props) => {
                                   data: { selected: !meal.selected },
                                 })
                                 await setQueryData(updated)
-                                alert("Success!" + JSON.stringify(updated))
+                                await refetch({ force: true })
+                                // alert("Success!" + JSON.stringify(updated))
                               } catch (error) {
                                 console.log(error)
-                                alert("Error adding meal " + JSON.stringify(error, null, 2))
+                                // alert("Error adding meal " + JSON.stringify(error, null, 2))
                               }
                             }}
                           />

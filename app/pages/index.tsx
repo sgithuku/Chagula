@@ -42,17 +42,37 @@ const Home: BlitzPage = () => {
             <Link href="/meals">Meal Planner</Link>
           </Button>
         </ButtonGroup>
-
-        <Box
-          d="flex"
-          flexDir="row"
-          justifyContent="flex-start"
-          w="100"
-          flexWrap="wrap"
-          pl="0"
-          ml="0"
-        >
-          {meals.map((meal, index) => meal.selected && <MealBlock meal={meal} />)}
+        <Box w="100%">
+          <Heading>Not Eaten Yet</Heading>
+          <Box
+            d="flex"
+            flexDir="row"
+            justifyContent="flex-start"
+            w="100%"
+            flexWrap="wrap"
+            pl="0"
+            ml="0"
+          >
+            {meals.map(
+              (meal, index) => meal.selected && meal.already_eaten && <MealBlock meal={meal} />
+            )}
+          </Box>
+        </Box>
+        <Box>
+          <Heading>Eaten</Heading>
+          <Box
+            d="flex"
+            flexDir="row"
+            justifyContent="flex-start"
+            w="100%"
+            flexWrap="wrap"
+            pl="0"
+            ml="0"
+          >
+            {meals.map(
+              (meal, index) => meal.selected && !meal.already_eaten && <MealBlock meal={meal} />
+            )}
+          </Box>
         </Box>
       </Container>
     </Container>

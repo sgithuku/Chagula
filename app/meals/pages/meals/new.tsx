@@ -2,14 +2,16 @@ import Layout from "app/layouts/Layout"
 import { Link, useRouter, useMutation, BlitzPage } from "blitz"
 import createMeal from "app/meals/mutations/createMeal"
 import MealForm from "app/meals/components/MealForm"
+import Nav from "app/components/Nav"
+import { Container, Heading, Button, Box } from "@chakra-ui/react"
 
 const NewMealPage: BlitzPage = () => {
   const router = useRouter()
   const [createMealMutation] = useMutation(createMeal)
 
   return (
-    <div>
-      <h1>Create New Meal</h1>
+    <Container centerContent>
+      <Heading>Create New Meal</Heading>
 
       <MealForm
         initialValues={{}}
@@ -24,15 +26,22 @@ const NewMealPage: BlitzPage = () => {
         }}
       />
 
-      <p>
-        <Link href="/meals">
-          <a>Meals</a>
-        </Link>
-      </p>
-    </div>
+      <Box mt="6" mb="6">
+        <Button width="md" mb="3" colorScheme="gray.900" variant="outline">
+          <Link href="/meals">
+            <a>Go back to Meals</a>
+          </Link>
+        </Button>
+      </Box>
+    </Container>
   )
 }
 
-NewMealPage.getLayout = (page) => <Layout title={"Create New Meal"}>{page}</Layout>
+NewMealPage.getLayout = (page) => (
+  <Layout title={"Create New Meal"}>
+    <Nav />
+    {page}
+  </Layout>
+)
 
 export default NewMealPage

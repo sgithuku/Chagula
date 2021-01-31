@@ -47,7 +47,6 @@ const MealForm = ({ initialValues }: MealFormProps) => {
       createMealMutation({ data: state })
       alert("Success!" + JSON.stringify(state))
       setIsOpen(true)
-      onClose()
     } catch (error) {
       console.log("Error creating meal", error)
     }
@@ -86,7 +85,7 @@ const MealForm = ({ initialValues }: MealFormProps) => {
         </Box>
         <Box d="flex" flexDir="column" mb="3" justifyContent="flex-start">
           <FormLabel mt="3">Custom image</FormLabel>
-          <Input type="text" name="recipe" value={formState.name} onChange={onChange} />
+          <Input type="text" name="image_url" value={formState.image_url} onChange={onChange} />
           <FormHelperText>Upload a custom image for the meal (not required)</FormHelperText>
         </Box>
 

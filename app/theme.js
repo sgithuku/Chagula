@@ -28,6 +28,15 @@ const theme = extendTheme({
       label: {
         fontWeight: "bold !important",
       },
+      ".chakra-switch__thumb": {
+        backgroundColor: mode(
+          light.blockSubtitle + "!important",
+          dark.blockSubtitle + "!important"
+        )(props),
+      },
+      ".chakra-switch__track": {
+        backgroundColor: mode(light.switches + "!important", dark.switches + "!important")(props),
+      },
     }),
   },
 })
