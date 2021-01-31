@@ -1,16 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
-
-generator client {
-  provider = "prisma-client-js"
-}
-
-// --------------------------------------
 
 model User {
   id             Int       @id @default(autoincrement())
@@ -29,12 +24,12 @@ model Session {
   updatedAt          DateTime  @updatedAt
   expiresAt          DateTime?
   handle             String    @unique
-  user               User?     @relation(fields: [userId], references: [id])
   userId             Int?
   hashedSessionToken String?
   antiCSRFToken      String?
   publicData         String?
   privateData        String?
+  user               User?     @relation(fields: [userId], references: [id])
 }
 
 model Meal {
@@ -43,11 +38,11 @@ model Meal {
   updatedAt     DateTime @updatedAt
   name          String?
   category      String?
-  days          Day[]
-  selected      Boolean  @default(value: false)
-  timesEaten    Int      @default(value: 0)
+  selected      Boolean  @default(false)
+  timesEaten    Int      @default(0)
   image_url     String?
-  already_eaten Boolean  @default(value: false)
+  already_eaten Boolean  @default(false)
+  days          Day[]
 }
 
 model Day {
