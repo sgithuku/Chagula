@@ -26,7 +26,7 @@ const Home: BlitzPage = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   // const router = useRouter()
   // const mealId = useParam("mealId", "number")
-  const [{ meals }] = useQuery(getMeals, { where: {} })
+  const [{ meals }] = useQuery(getMeals, { where: {} }, {})
   const [updateMealMutation] = useMutation(updateMeal)
 
   return (

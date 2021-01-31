@@ -1,5 +1,5 @@
 {
-  "name": "Chagula",
+  "name": "chagula",
   "version": "1.0.0",
   "scripts": {
     "start": "blitz start",
@@ -73,6 +73,9 @@
     "pretty-quick": "3.1.0",
     "react-test-renderer": "17.0.1",
     "ts-jest": "26.5.0"
+  },
+  "resolutions": {
+    "react-query": "2.6.0"
   },
   "private": true
 }
