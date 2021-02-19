@@ -21,7 +21,7 @@ import updateMeal from "app/meals/mutations/updateMeal"
 const MealBlock = (props) => {
   // const mealId = useParam("mealId", "number")
   const { colorMode, toggleColorMode } = useColorMode()
-  const [meal, { setQueryData, refetch }] = useQuery(getMeal, { where: { id: props.meal.id } }, {})
+  const [meal, { setQueryData }] = useQuery(getMeal, { where: { id: props.meal.id } }, {})
   const [updateMealMutation] = useMutation(updateMeal)
 
   const setEatenAlready = async () => {

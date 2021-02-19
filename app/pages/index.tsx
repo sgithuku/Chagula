@@ -1,4 +1,4 @@
-import { Link, BlitzPage, useMutation, useQuery, useRouter, useParam } from "blitz"
+import { Link, BlitzPage, useMutation, useQuery, useRouter, useParam, setQueryData } from "blitz"
 import Layout from "app/layouts/Layout"
 import logout from "app/auth/mutations/logout"
 import { useCurrentUser } from "app/hooks/useCurrentUser"
@@ -26,17 +26,17 @@ const Home: BlitzPage = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   // const router = useRouter()
   // const mealId = useParam("mealId", "number")
-  const [{ meals }] = useQuery(getMeals, { where: {} }, {})
+  const [meals, { setQueryData }] = useQuery(getMeals, { where: {} }, {})
   const [updateMealMutation] = useMutation(updateMeal)
 
   return (
     <Container centerContent maxW="100vw">
       <Nav />
       <Container maxW="100vw">
-        <Heading as="h2">On the menu</Heading>
-        <ButtonGroup spacing="3" mt="3" mb="3">
+        {/* <Heading as="h2">On the menu</Heading> */}
+        <ButtonGroup spacing="3" marginBottom="6">
           <Button colorScheme={colorMode === "dark" ? "gray.50" : "white"} p="3" variant="outline">
-            <Link href="/addmeal">Add new meals</Link>
+            <Link href="/meals/new">Add new meals</Link>
           </Button>
           <Button colorScheme={colorMode === "dark" ? "gray.50" : "white"} p="3" variant="outline">
             <Link href="/meals">Meal Planner</Link>
@@ -53,13 +53,35 @@ const Home: BlitzPage = () => {
             pl="0"
             ml="0"
           >
-            {meals.map(
-              (meal, index) => meal.selected && meal.already_eaten && <MealBlock meal={meal} />
+            {meals.meals.map(
+              (meal, index) => meal.selected && !meal.already_eaten && <MealBlock meal={meal} />
             )}
           </Box>
         </Box>
         <Box>
           <Heading>Eaten</Heading>
+          <Button
+            colorScheme={colorMode === "dark" ? "gray.50" : "white"}
+            p="3"
+            marginY="3"
+            variant="outline"
+            onClick={async () => {
+              try {
+                const updated = await updateMealMutation({
+                  where: {},
+                  data: { selected: false },
+                })
+                await setQueryData(updated)
+                // await refetch({ force: true })
+                // alert("Success!" + JSON.stringify(updated))
+              } catch (error) {
+                console.log(error)
+                // alert("Error adding meal " + JSON.stringify(error, null, 2))
+              }
+            }}
+          >
+            Reset Meals You've Eaten
+          </Button>
           <Box
             d="flex"
             flexDir="row"
@@ -69,8 +91,8 @@ const Home: BlitzPage = () => {
             pl="0"
             ml="0"
           >
-            {meals.map(
-              (meal, index) => meal.selected && !meal.already_eaten && <MealBlock meal={meal} />
+            {meals.meals.map(
+              (meal, index) => meal.selected && meal.already_eaten && <MealBlock meal={meal} />
             )}
           </Box>
         </Box>

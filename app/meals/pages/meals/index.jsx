@@ -41,13 +41,14 @@ export const MealsList = (props) => {
   // const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
   // const goToNextPage = () => router.push({ query: { page: page + 1 } })
 
-  const [{ meals, setQueryData }] = useQuery(getMeals, { where: {} }, {})
-  const cuisines = [...new Set(meals.map((item) => item.category))] // [ 'A', 'B']
+  const [meals, { setQueryData }] = useQuery(getMeals, { where: {} }, {})
+  console.log(meals)
+  // const cuisines = [...new Set(meals.meals.map((item) => item.category))] // [ 'A', 'B']
   // const [cuisineFilter, setCuisineFilter] = useState(null)
 
   const [updateMealMutation] = useMutation(updateMeal)
 
-  const [searchResults, setSearchResults] = useState(meals)
+  const [searchResults, setSearchResults] = useState(meals.meals)
   const filterReducer = (state = new Set([]), action) => {
     switch (action.type) {
       case "ADD_FILTER":
@@ -79,7 +80,7 @@ export const MealsList = (props) => {
   useEffect(() => {
     if (filters.size !== 0) {
       setSearchResults(
-        [...meals].filter((document) => {
+        [...meals.meals].filter((document) => {
           let flag = true
           ;[...filters].map((filter) => {
             // console.log("this is filter", filter, document);
@@ -89,7 +90,7 @@ export const MealsList = (props) => {
         })
       )
     } else {
-      setSearchResults(meals)
+      setSearchResults(meals.meals)
     }
   }, [filters])
 
@@ -130,7 +131,7 @@ export const MealsList = (props) => {
               <a>Add a Meal</a>
             </Link>
           </Button>
-          <Box d="flex" justifyContent="space-between" mt="3" mb="3">
+          {/* <Box d="flex" justifyContent="space-between" mt="3" mb="3">
             {cuisines.map((food, index) => (
               <Button
                 // color={colorMode === "dark" ? "gray.50" : "gray.700"}
@@ -143,7 +144,7 @@ export const MealsList = (props) => {
                 {food.replace(/^\w/, (c) => c.toUpperCase())}
               </Button>
             ))}
-          </Box>
+          </Box> */}
           <Box>
             <Droppable droppableId="longlist">
               {(provided) => (
@@ -215,75 +216,79 @@ export const MealsList = (props) => {
             justifyContent="flex-start"
             alignItems="flex-start"
           >
-            {meals.map(
-              (meal, index) =>
-                meal.selected && (
-                  // <Box
-                  //   w="xs"
-                  //   borderWidth="1px"
-                  //   borderRadius="lg"
-                  //   borderColor={colorMode === "dark" ? "gray.900" : "green.700"}
-                  //   overflow="hidden"
-                  //   marginBottom="1em"
-                  //   boxShadow="xl"
-                  //   color={colorMode === "dark" ? "gray.900" : "green.700"}
-                  //   marginX="3"
-                  //   bgColor={colorMode === "dark" ? "gray.900" : "green.700"}
-                  //   _hover={{ bgColor: "green.900" }}
-                  //   position="relative"
-                  // >
-                  //   <IconButton
-                  //     aria-label="Search database"
-                  //     borderRadius="full"
-                  //     position="absolute"
-                  //     onClick={async () => {
-                  //       try {
-                  //         const updated = await updateMealMutation({
-                  //           where: { id: meal.id },
-                  //           data: { selected: !meal.selected },
-                  //         })
-                  //         await setQueryData(updated)
-                  //         refetch({ force: true })
-                  //         // alert("Success!" + JSON.stringify(updated))
-                  //       } catch (error) {
-                  //         console.log(error)
-                  //         // alert("Error adding meal " + JSON.stringify(error, null, 2))
-                  //       }
-                  //     }}
-                  //     top="-5"
-                  //     left="-5"
-                  //     icon={
-                  //       <Icon
-                  //         aria-label="Meals"
-                  //         css={colorMode === "dark" ? "gray.900" : "green.700"}
-                  //         as={X}
-                  //         weight="fill"
-                  //       />
-                  //     }
-                  //   />
-                  //   <Image src={`./${meal.category}.jpg`} alt={"meal picture"} />
+            {meals ? (
+              meals.meals.map(
+                (meal, index) =>
+                  meal.selected && (
+                    // <Box
+                    //   w="xs"
+                    //   borderWidth="1px"
+                    //   borderRadius="lg"
+                    //   borderColor={colorMode === "dark" ? "gray.900" : "green.700"}
+                    //   overflow="hidden"
+                    //   marginBottom="1em"
+                    //   boxShadow="xl"
+                    //   color={colorMode === "dark" ? "gray.900" : "green.700"}
+                    //   marginX="3"
+                    //   bgColor={colorMode === "dark" ? "gray.900" : "green.700"}
+                    //   _hover={{ bgColor: "green.900" }}
+                    //   position="relative"
+                    // >
+                    //   <IconButton
+                    //     aria-label="Search database"
+                    //     borderRadius="full"
+                    //     position="absolute"
+                    //     onClick={async () => {
+                    //       try {
+                    //         const updated = await updateMealMutation({
+                    //           where: { id: meal.id },
+                    //           data: { selected: !meal.selected },
+                    //         })
+                    //         await setQueryData(updated)
+                    //         refetch({ force: true })
+                    //         // alert("Success!" + JSON.stringify(updated))
+                    //       } catch (error) {
+                    //         console.log(error)
+                    //         // alert("Error adding meal " + JSON.stringify(error, null, 2))
+                    //       }
+                    //     }}
+                    //     top="-5"
+                    //     left="-5"
+                    //     icon={
+                    //       <Icon
+                    //         aria-label="Meals"
+                    //         css={colorMode === "dark" ? "gray.900" : "green.700"}
+                    //         as={X}
+                    //         weight="fill"
+                    //       />
+                    //     }
+                    //   />
+                    //   <Image src={`./${meal.category}.jpg`} alt={"meal picture"} />
 
-                  //   <Box d="flex" flexDir="column">
-                  //     <Box d="flex" alignItems="center" p="3">
-                  //       <Heading as="h4" size="sm" color="gray.50">
-                  //         <Link href={`/meals/${meal.id}`}>{meal.name}</Link>
-                  //       </Heading>
-                  //     </Box>
-                  //     <Heading
-                  //       className="category"
-                  //       paddingX="3"
-                  //       size="xs"
-                  //       color={colorMode === "dark" ? "gray.500" : "green.200"}
-                  //       bgColor="transparent"
-                  //       pb="3"
-                  //       as="h5"
-                  //     >
-                  //       {meal.category?.toUpperCase()}
-                  //     </Heading>
-                  //   </Box>
-                  // </Box>
-                  <MealBlock meal={meal} />
-                )
+                    //   <Box d="flex" flexDir="column">
+                    //     <Box d="flex" alignItems="center" p="3">
+                    //       <Heading as="h4" size="sm" color="gray.50">
+                    //         <Link href={`/meals/${meal.id}`}>{meal.name}</Link>
+                    //       </Heading>
+                    //     </Box>
+                    //     <Heading
+                    //       className="category"
+                    //       paddingX="3"
+                    //       size="xs"
+                    //       color={colorMode === "dark" ? "gray.500" : "green.200"}
+                    //       bgColor="transparent"
+                    //       pb="3"
+                    //       as="h5"
+                    //     >
+                    //       {meal.category?.toUpperCase()}
+                    //     </Heading>
+                    //   </Box>
+                    // </Box>
+                    <MealBlock meal={meal} />
+                  )
+              )
+            ) : (
+              <h2> Loading...</h2>
             )}
           </Box>
         </Box>
