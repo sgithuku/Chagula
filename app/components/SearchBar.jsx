@@ -15,18 +15,18 @@ import {
 const SearchBar = ({ onSearch, customColor }) => {
   return (
     <InputGroup width="100%">
-      <InputLeftElement
-        pointerEvents="none"
-        children={<Icon as={MagnifyingGlass} color={"white"} />}
-      />
+      <InputLeftElement pointerEvents="none" children={<Icon as={MagnifyingGlass} />} />
       <Input
         id="search-input"
         className="search-input"
         size="md"
         maxW="100vw"
-        variant="filled"
+        variant="outline"
         // colorScheme={customColor}
-        bgColor={customColor}
+        // bgColor={customColor}
+        // color="gray.900"
+        // colorScheme="blackAlpha"
+        // borderColor="green.500"
         onKeyPress={(e) => {
           e.key === "Enter" && onSearch()
         }}

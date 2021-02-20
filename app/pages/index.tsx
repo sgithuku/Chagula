@@ -1,8 +1,28 @@
 import { Suspense } from "react"
-import { Link, BlitzPage, useMutation } from "blitz"
+import { Link, BlitzPage, useMutation, useQuery, useRouter, useParam, setQueryData } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
+
+import updateMeal from "app/meals/mutations/updateMeal"
+
+import {
+  Heading,
+  Container,
+  Box,
+  Text,
+  Image,
+  Button,
+  ButtonGroup,
+  useColorMode,
+  Icon,
+  IconButton,
+} from "@chakra-ui/react"
+import Nav from "app/components/Nav"
+// import getMeal from "../meals/queries/getMeal"
+import getMeals from "../meals/queries/getMeals"
+import { Calendar, ForkKnife, X } from "phosphor-react"
+import MealBlock from "../components/MealBlock"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -50,218 +70,98 @@ const UserInfo = () => {
 }
 
 const Home: BlitzPage = () => {
+  const { colorMode, toggleColorMode } = useColorMode()
+  // const router = useRouter()
+  // const mealId = useParam("mealId", "number")
+  const [meals, { setQueryData }] = useQuery(getMeals, { where: {} }, {})
+  const [updateMealMutation] = useMutation(updateMeal)
+
   return (
-    <div className="container">
-      <main>
-        <div className="logo">
-          <img src="/logo.png" alt="blitz.js" />
-        </div>
-        <p>
-          <strong>Congrats!</strong> Your app is ready, including user sign-up and log-in.
-        </p>
-        <div className="buttons" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
-          <Suspense fallback="Loading...">
-            <UserInfo />
-          </Suspense>
-        </div>
-        <p>
-          <strong>
-            To add a new model to your app, <br />
-            run the following in your terminal:
-          </strong>
-        </p>
-        <pre>
-          <code>blitz generate all project name:string</code>
-        </pre>
-        <div style={{ marginBottom: "1rem" }}>(And select Yes to run prisma migrate)</div>
-        <div>
-          <p>
-            Then <strong>restart the server</strong>
-          </p>
-          <pre>
-            <code>Ctrl + c</code>
-          </pre>
-          <pre>
-            <code>blitz dev</code>
-          </pre>
-          <p>
-            and go to{" "}
-            <Link href="/projects">
-              <a>/projects</a>
-            </Link>
-          </p>
-        </div>
-        <div className="buttons" style={{ marginTop: "5rem" }}>
-          <a
-            className="button"
-            href="https://blitzjs.com/docs/getting-started?utm_source=blitz-new&utm_medium=app-template&utm_campaign=blitz-new"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Container centerContent maxW="100vw">
+      <Nav />
+      <Container maxW="100vw">
+        <ButtonGroup spacing="3" marginBottom="6">
+          <Button
+            colorScheme={colorMode === "dark" ? "gray.50" : "white"}
+            p="3"
+            variant="outline"
+            aria-label="add meal"
           >
-            Documentation
-          </a>
-          <a
-            className="button-outline"
-            href="https://github.com/blitz-js/blitz"
-            target="_blank"
-            rel="noopener noreferrer"
+            <Icon aria-label="add-meal" as={ForkKnife} weight="fill" mr="1" />
+            <Link href="/meals/new"> Add new meal</Link>
+          </Button>
+          <Button colorScheme={colorMode === "dark" ? "gray.50" : "white"} p="3" variant="outline">
+            <Icon aria-label="add-meal" as={Calendar} weight="fill" mr="1" />
+            <Link href="/meals">Meal Planner</Link>
+          </Button>
+        </ButtonGroup>
+        <Box w="100%">
+          {meals.chosen > 0 && <Heading>Not Eaten Yet</Heading>}
+          <Box
+            d="flex"
+            flexDir="row"
+            justifyContent="flex-start"
+            w="100%"
+            flexWrap="wrap"
+            pl="0"
+            ml="0"
           >
-            Github Repo
-          </a>
-          <a
-            className="button-outline"
-            href="https://discord.blitzjs.com"
-            target="_blank"
-            rel="noopener noreferrer"
+            {meals.meals.map(
+              (meal, index) =>
+                meal.selected && !meal.already_eaten && <MealBlock meal={meal} key={index} />
+            )}
+          </Box>
+        </Box>
+        <Box>
+          {meals.chosen > 0 && <Heading>Eaten</Heading>}
+          <Box
+            d="flex"
+            flexDir="row"
+            justifyContent="flex-start"
+            w="100%"
+            flexWrap="wrap"
+            pl="0"
+            ml="0"
           >
-            Discord Community
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://blitzjs.com?utm_source=blitz-new&utm_medium=app-template&utm_campaign=blitz-new"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by Blitz.js
-        </a>
-      </footer>
-
-      <style jsx global>{`
-        @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;700&display=swap");
-
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: "Libre Franklin", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-            Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-        }
-
-        * {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          box-sizing: border-box;
-        }
-        .container {
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main p {
-          font-size: 1.2rem;
-        }
-
-        p {
-          text-align: center;
-        }
-
-        footer {
-          width: 100%;
-          height: 60px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: #45009d;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer a {
-          color: #f4f4f4;
-          text-decoration: none;
-        }
-
-        .logo {
-          margin-bottom: 2rem;
-        }
-
-        .logo img {
-          width: 300px;
-        }
-
-        .buttons {
-          display: grid;
-          grid-auto-flow: column;
-          grid-gap: 0.5rem;
-        }
-        .button {
-          font-size: 1rem;
-          background-color: #6700eb;
-          padding: 1rem 2rem;
-          color: #f4f4f4;
-          text-align: center;
-        }
-
-        .button.small {
-          padding: 0.5rem 1rem;
-        }
-
-        .button:hover {
-          background-color: #45009d;
-        }
-
-        .button-outline {
-          border: 2px solid #6700eb;
-          padding: 1rem 2rem;
-          color: #6700eb;
-          text-align: center;
-        }
-
-        .button-outline:hover {
-          border-color: #45009d;
-          color: #45009d;
-        }
-
-        pre {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          text-align: center;
-        }
-        code {
-          font-size: 0.9rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-            Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
-    </div>
+            {meals.meals.map(
+              (meal, index) =>
+                meal.selected && meal.already_eaten && <MealBlock meal={meal} key={index} />
+            )}
+          </Box>
+          {meals.chosen > 0 && (
+            <Button
+              colorScheme={colorMode === "dark" ? "gray.50" : "white"}
+              p="3"
+              marginY="3"
+              variant="outline"
+              onClick={async () => {
+                try {
+                  // const updated = await updateMealMutation({
+                  //   where: {},
+                  //   data: { selected: false },
+                  // })
+                  await meals.meals.map((meal, index) => {
+                    updateMealMutation({
+                      where: { id: index },
+                      data: { selected: false },
+                    })
+                  })
+                  // await setQueryData(updated)
+                  // await refetch({ force: true })
+                  // alert("Success!" + JSON.stringify(updated))
+                } catch (error) {
+                  console.log(error)
+                  // alert("Error adding meal " + JSON.stringify(error, null, 2))
+                }
+              }}
+            >
+              <Icon aria-label="add-meal" as={X} weight="fill" mr="1" />
+              Reset Meals You've Eaten
+            </Button>
+          )}
+        </Box>
+      </Container>
+    </Container>
   )
 }
 

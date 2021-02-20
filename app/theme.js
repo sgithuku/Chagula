@@ -29,13 +29,14 @@ const theme = extendTheme({
         fontWeight: "bold !important",
       },
       ".chakra-switch__thumb": {
-        backgroundColor: mode(
-          light.blockSubtitle + "!important",
-          dark.blockSubtitle + "!important"
-        )(props),
+        backgroundColor: mode(dark.switches + "!important", light.switches + "!important")(props),
       },
       ".chakra-switch__track": {
         backgroundColor: mode(light.switches + "!important", dark.switches + "!important")(props),
+      },
+      "::placeholder": {
+        color: mode(light.text, dark.text)(props),
+        opacity: 1 /* Firefox */,
       },
     }),
   },

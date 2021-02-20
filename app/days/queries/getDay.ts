@@ -4,7 +4,7 @@ import db, { Prisma } from "db"
 type GetDayInput = Pick<Prisma.FindFirstDayArgs, "where">
 
 export default async function getDay({ where }: GetDayInput, ctx: Ctx) {
-  ctx.session.authorize()
+  ctx.session.$authorize()
 
   const day = await db.day.findFirst({ where })
 

@@ -13,7 +13,7 @@ const Filters = ({ filters, filterDispatcher, customBG, customColor }) => (
         className="tag"
         onClick={() => filterDispatcher({ type: "REMOVE_FILTER", filter: filter })}
         mr="3"
-        borderRadius="sm"
+        borderRadius="lg"
         colorScheme={customColor}
         _hover={{ bg: customBG, color: customColor }}
       >
@@ -21,7 +21,7 @@ const Filters = ({ filters, filterDispatcher, customBG, customColor }) => (
       </Tag>
     ))}
     <Tag
-      borderRadius="sm"
+      borderRadius="lg"
       colorScheme={customColor}
       _hover={{ color: customColor }}
       onClick={() => filterDispatcher({ type: "RESET_FILTER" })}

@@ -1,13 +1,13 @@
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
 
-type GetMealsInput = Pick<Prisma.FindManyMealArgs, "where" | "orderBy" | "skip" | "take">
+type GetMealsInput = Pick<Prisma.MealFindManyArgs, "where" | "orderBy" | "skip" | "take">
 
 export default async function getMeals(
   { where, orderBy, skip = 0, take }: GetMealsInput,
   ctx: Ctx
 ) {
-  ctx.session.authorize()
+  ctx.session.$authorize()
 
   const meals = await db.meal.findMany({
     where,
@@ -17,6 +17,11 @@ export default async function getMeals(
   })
 
   const count = await db.meal.count()
+  const chosen = await db.meal.count({
+    where: {
+      selected: true
+    }
+  })
   const hasMore = typeof take === "number" ? skip + take < count : false
   const nextPage = hasMore ? { take, skip: skip + take! } : null
 
@@ -25,5 +30,6 @@ export default async function getMeals(
     nextPage,
     hasMore,
     count,
+    chosen
   }
 }

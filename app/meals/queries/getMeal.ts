@@ -4,7 +4,7 @@ import db, { Prisma } from "db"
 type GetMealInput = Pick<Prisma.FindFirstMealArgs, "where">
 
 export default async function getMeal({ where }: GetMealInput, ctx: Ctx) {
-  ctx.session.authorize()
+  ctx.session.$authorize()
 
   const meal = await db.meal.findFirst({ where })
 

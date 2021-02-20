@@ -57,6 +57,27 @@ model Token {
   @@unique([hashedToken, type])
 }
 
+model Meal {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  name          String?
+  category      String?
+  selected      Boolean  @default(false)
+  timesEaten    Int      @default(0)
+  image_url     String?
+  already_eaten Boolean  @default(false)
+  days          Day[]
+}
+
+model Day {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  meals     Meal[]
+}
+
 // NOTE: It's highly recommended to use an enum for the token type
 //       but enums only work in Postgres.
 //       See: https://blitzjs.com/docs/database-overview#switch-to-postgresql
