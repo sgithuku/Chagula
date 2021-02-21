@@ -85,7 +85,7 @@ const seed = async () => {
   }
 
   for (let i = 0; i < choices.length; i++) {
-    await db.choices.create({
+    await db.meals.create({
       data: {
         name: `${choices[i].name}`,
         category: `${choices[i].category}`,
