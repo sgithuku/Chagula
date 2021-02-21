@@ -38,6 +38,9 @@ const theme = extendTheme({
         color: mode(light.text, dark.text)(props),
         opacity: 1 /* Firefox */,
       },
+      "form button": {
+        marginTop: "3",
+      },
     }),
   },
 })

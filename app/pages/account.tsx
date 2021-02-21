@@ -3,7 +3,6 @@ import { Link, BlitzPage, useMutation, useQuery, useRouter, useParam, setQueryDa
 import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
-import LoginForm from "app/auth/components/LoginForm"
 
 import updateMeal from "app/meals/mutations/updateMeal"
 
@@ -17,32 +16,20 @@ import {
   ButtonGroup,
   useColorMode,
   Icon,
+  IconButton,
 } from "@chakra-ui/react"
 import Nav from "app/components/Nav"
 // import getMeal from "../meals/queries/getMeal"
-import getMeals from "../meals/queries/getMeals"
 import { Calendar, ForkKnife, X } from "phosphor-react"
-import MealBlock from "../components/MealBlock"
-import Planner from "./planner"
 
-const Home: BlitzPage = () => {
+const Account = () => {
   const { colorMode, toggleColorMode } = useColorMode()
-  const [logoutMutation] = useMutation(logout)
-  const currentUser = useCurrentUser()
 
-  if (currentUser) {
-    return <Planner />
-  } else {
-    return (
-      <Container centerContent maxW="100%">
-        <Nav />
-        <LoginForm />
-      </Container>
-    )
-  }
+  return (
+    <Container centerContent maxW="100%">
+      <Nav />
+    </Container>
+  )
 }
 
-Home.suppressFirstRenderFlicker = true
-Home.getLayout = (page) => <Layout title="Home">{page}</Layout>
-
-export default Home
+export default Account

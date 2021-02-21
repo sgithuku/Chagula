@@ -1,5 +1,7 @@
 import { forwardRef, PropsWithoutRef } from "react"
 import { useField } from "react-final-form"
+import { dark, light } from "../../colors"
+import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from "@chakra-ui/react"
 
 export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
   /** Field name. */
@@ -46,7 +48,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             font-size: 1rem;
             padding: 0.25rem 0.5rem;
             border-radius: 3px;
-            border: 1px solid purple;
+            border: 1px solid ${dark.backgroundColor};
             appearance: none;
             margin-top: 0.5rem;
           }

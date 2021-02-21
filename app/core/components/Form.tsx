@@ -1,8 +1,9 @@
+import { Button, useColorMode } from "@chakra-ui/react"
 import { ReactNode, PropsWithoutRef } from "react"
 import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form"
 import * as z from "zod"
 export { FORM_ERROR } from "final-form"
-
+import { dark, light } from "../../colors"
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit"> {
   /** All your form fields */
@@ -22,6 +23,8 @@ export function Form<S extends z.ZodType<any, any>>({
   onSubmit,
   ...props
 }: FormProps<S>) {
+  const { colorMode, toggleColorMode } = useColorMode()
+
   return (
     <FinalForm
       initialValues={initialValues}
@@ -46,16 +49,17 @@ export function Form<S extends z.ZodType<any, any>>({
           )}
 
           {submitText && (
-            <button type="submit" disabled={submitting}>
+            <Button
+              colorScheme={colorMode === "dark" ? dark.link : light.link}
+              variant="outline"
+              mr={["3", "3", "6"]}
+              type="submit"
+              disabled={submitting}
+              justifySelf="center"
+            >
               {submitText}
-            </button>
+            </Button>
           )}
-
-          <style global jsx>{`
-            .form > * + * {
-              margin-top: 1rem;
-            }
-          `}</style>
         </form>
       )}
     />
