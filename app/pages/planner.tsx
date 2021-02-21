@@ -1,27 +1,16 @@
-import updateMeal from "app/meals/mutations/updateMeal"
-import { Link, BlitzPage, useMutation, useQuery, useRouter, useParam, setQueryData } from "blitz"
-
-import {
-  Heading,
-  Container,
-  Box,
-  Text,
-  Image,
-  Button,
-  ButtonGroup,
-  useColorMode,
-  Icon,
-} from "@chakra-ui/react"
+import { Box, Button, ButtonGroup, Container, Heading, Icon, useColorMode } from "@chakra-ui/react"
 import Nav from "app/components/Nav"
-// import getMeal from "../meals/queries/getMeal"
-import getMeals from "../meals/queries/getMeals"
+import updateMeal from "app/meals/mutations/updateMeal"
+import { Link, useMutation, useQuery } from "blitz"
 import { Calendar, ForkKnife, X } from "phosphor-react"
 import MealBlock from "../components/MealBlock"
+// import getMeal from "../meals/queries/getMeal"
+import getMeals from "../meals/queries/getMeals"
 
 const Planner = () => {
-  const [meals, { setQueryData }] = useQuery(getMeals, { where: {} }, {})
+  const [meals] = useQuery(getMeals, { where: {} }, {})
   const [updateMealMutation] = useMutation(updateMeal)
-  const { colorMode, toggleColorMode } = useColorMode()
+  const { colorMode } = useColorMode()
 
   return (
     <Container centerContent maxW="100%">
@@ -88,7 +77,7 @@ const Planner = () => {
                   //   data: { selected: false },
                   // })
                   await meals.meals.map((meal, index) => {
-                    updateMealMutation({
+                    return updateMealMutation({
                       where: { id: index },
                       data: { selected: false },
                     })

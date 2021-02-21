@@ -1,33 +1,16 @@
-import { Suspense } from "react"
-import Layout from "app/layouts/Layout"
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Container } from "@chakra-ui/react"
 import Nav from "app/components/Nav"
-import { Link, useRouter, useQuery, useMutation, useParam, BlitzPage } from "blitz"
-
-import {
-  Container,
-  Button,
-  Box,
-  Heading,
-  Image,
-  useColorMode,
-  IconButton,
-  Icon,
-  ButtonGroup,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-} from "@chakra-ui/react"
-
-import getMeal from "app/meals/queries/getMeal"
-import updateMeal from "app/meals/mutations/updateMeal"
+import Layout from "app/layouts/Layout"
 import MealForm from "app/meals/components/MealForm"
+// import updateMeal from "app/meals/mutations/updateMeal"
+import getMeal from "app/meals/queries/getMeal"
+import { BlitzPage, useParam, useQuery } from "blitz"
+import { Suspense } from "react"
 
 export const EditMeal = () => {
-  const router = useRouter()
   const mealId = useParam("mealId", "number")
-  const [meal, { setQueryData }] = useQuery(getMeal, { where: { id: mealId } })
-  const [updateMealMutation] = useMutation(updateMeal)
+  const [meal] = useQuery(getMeal, { where: { id: mealId } })
+  // const [updateMealMutation] = useMutation(updateMeal)
   // console.log("this is the meal", meal)
 
   return (

@@ -1,7 +1,6 @@
-import { ReactNode } from "react"
-import { Head } from "blitz"
-import { useColorMode } from "@chakra-ui/react"
 import { Container } from "@chakra-ui/react"
+import { Head } from "blitz"
+import { ReactNode } from "react"
 
 type LayoutProps = {
   title?: string
@@ -9,7 +8,6 @@ type LayoutProps = {
 }
 
 const Layout = ({ title, children }: LayoutProps) => {
-  const { colorMode, toggleColorMode } = useColorMode()
   return (
     <Container w="100%" maxW="100%" m="0" p="0">
       <Head>

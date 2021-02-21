@@ -1,10 +1,10 @@
-import { AuthenticationError, Link, useMutation } from "blitz"
-import { LabeledTextField } from "app/core/components/LabeledTextField"
-import { Form, FORM_ERROR } from "app/core/components/Form"
+import { Box, Button, Container, Heading, Text, useColorMode } from "@chakra-ui/react"
 import login from "app/auth/mutations/login"
 import { Login } from "app/auth/validations"
-import { Box, Button, Container, Heading, useColorMode, Text } from "@chakra-ui/react"
-import { light, dark } from "../../colors"
+import { Form, FORM_ERROR } from "app/core/components/Form"
+import { LabeledTextField } from "app/core/components/LabeledTextField"
+import { AuthenticationError, Link, useMutation } from "blitz"
+import { dark, light } from "../../colors"
 
 type LoginFormProps = {
   onSuccess?: () => void
@@ -12,7 +12,7 @@ type LoginFormProps = {
 
 export const LoginForm = (props: LoginFormProps) => {
   const [loginMutation] = useMutation(login)
-  const { colorMode, toggleColorMode } = useColorMode()
+  const { colorMode } = useColorMode()
 
   return (
     <Container centerContent justifyContent="center" maxW="100%">

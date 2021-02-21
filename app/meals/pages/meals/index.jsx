@@ -1,30 +1,25 @@
-import React, { Suspense, useState, useReducer, useEffect } from "react"
-import Layout from "app/layouts/Layout"
-import { Link, useRouter, BlitzPage, useQuery, useMutation, setQueryData } from "blitz"
-import getMeals from "app/meals/queries/getMeals"
 import {
-  List,
-  ListItem,
-  ListIcon,
-  Container,
-  Button,
   Box,
+  Container,
   Heading,
-  Image,
-  useColorMode,
-  IconButton,
   Icon,
+  Image,
+  List,
+  ListIcon,
+  ListItem,
   Text,
+  useColorMode,
 } from "@chakra-ui/react"
-import { CaretRight, ForkKnife, Plus, X } from "phosphor-react"
-import Nav from "../../../components/Nav"
+import Layout from "app/layouts/Layout"
 import updateMeal from "app/meals/mutations/updateMeal"
-import MealBlock from "../../../components/MealBlock"
-
-import SearchBar from "../../../components/SearchBar"
+import getMeals from "app/meals/queries/getMeals"
+import { Link, useMutation, useQuery, useRouter } from "blitz"
+import { ForkKnife, Plus } from "phosphor-react"
+import React, { Suspense, useEffect, useReducer, useState } from "react"
 import Filters from "../../../components/Filters"
-
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import MealBlock from "../../../components/MealBlock"
+import Nav from "../../../components/Nav"
+import SearchBar from "../../../components/SearchBar"
 
 const ITEMS_PER_PAGE = 30
 

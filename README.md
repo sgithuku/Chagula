@@ -8,7 +8,7 @@ It's a Swahili abstraction of Chakula (food) and Chagua (to choose) - we couldn'
 
 ### Features
 
-[COMING SOON]
+![screenshot](./public/screenshot)
 
 ### Roadmap
 

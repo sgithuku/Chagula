@@ -1,5 +1,5 @@
+import { Box, Tag, TagCloseButton, TagLabel, Text } from "@chakra-ui/react"
 import React from "react"
-import { Box, Button, Text, Tag, TagLabel, TagCloseButton } from "@chakra-ui/react"
 // import { X } from "phosphor-react";
 
 const Filters = ({ filters, filterDispatcher, customBG, customColor }) => (

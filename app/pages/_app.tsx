@@ -1,15 +1,15 @@
+import { ChakraProvider, CSSReset } from "@chakra-ui/react"
+import LoginForm from "app/auth/components/LoginForm"
 import {
   AppProps,
-  ErrorComponent,
-  useRouter,
   AuthenticationError,
   AuthorizationError,
+  ErrorComponent,
   ErrorFallbackProps,
+  useRouter,
 } from "blitz"
 import { ErrorBoundary } from "react-error-boundary"
 import { queryCache } from "react-query"
-import LoginForm from "app/auth/components/LoginForm"
-import { CSSReset, ChakraProvider, Container, Heading } from "@chakra-ui/react"
 import theme from "../theme"
 
 export default function App({ Component, pageProps }: AppProps) {

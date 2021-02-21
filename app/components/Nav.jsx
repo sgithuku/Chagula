@@ -1,21 +1,21 @@
 import {
-  Heading,
   Box,
-  Link,
-  Container,
-  Switch,
-  FormControl,
-  useColorMode,
-  Icon,
-  Text,
   Button,
+  Container,
+  FormControl,
+  Heading,
+  Icon,
+  Link,
+  Switch,
+  Text,
+  useColorMode,
 } from "@chakra-ui/react"
-import { ForkKnife, Moon, Sun, Gear, UserCircle } from "phosphor-react"
-import { light, dark } from "../colors"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
-import { Suspense } from "react"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { useMutation } from "blitz"
+import { ForkKnife, Moon, Sun, UserCircle } from "phosphor-react"
+import { Suspense } from "react"
+import { dark, light } from "../colors"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()

@@ -1,13 +1,12 @@
-import Layout from "app/layouts/Layout"
-import { Link, useRouter, useMutation, BlitzPage } from "blitz"
-import createMeal from "app/meals/mutations/createMeal"
-import MealForm from "app/meals/components/MealForm"
+import { Box, Button, Container, Heading } from "@chakra-ui/react"
 import Nav from "app/components/Nav"
-import { Container, Heading, Button, Box } from "@chakra-ui/react"
+import Layout from "app/layouts/Layout"
+import MealForm from "app/meals/components/MealForm"
+// import createMeal from "app/meals/mutations/createMeal"
+import { BlitzPage, Link } from "blitz"
 
 const NewMealPage: BlitzPage = () => {
-  const router = useRouter()
-  const [createMealMutation] = useMutation(createMeal)
+  // const [createMealMutation] = useMutation(createMeal)
 
   return (
     <Container centerContent>

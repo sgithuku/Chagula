@@ -1,7 +1,6 @@
 import { forwardRef, PropsWithoutRef } from "react"
 import { useField } from "react-final-form"
-import { dark, light } from "../../colors"
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from "@chakra-ui/react"
+import { dark } from "../../colors"
 
 export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
   /** Field name. */

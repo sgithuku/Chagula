@@ -1,27 +1,19 @@
-import { Suspense } from "react"
-import Layout from "app/layouts/Layout"
-import Nav from "app/components/Nav"
-import { Link, useRouter, useQuery, useParam, BlitzPage, useMutation } from "blitz"
-
 import {
-  Container,
-  Button,
   Box,
-  Heading,
-  Image,
-  useColorMode,
-  IconButton,
-  Icon,
-  ButtonGroup,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
+  Button,
+  ButtonGroup,
+  Container,
 } from "@chakra-ui/react"
-
-import getMeal from "app/meals/queries/getMeal"
-import deleteMeal from "app/meals/mutations/deleteMeal"
 import MealBlock from "app/components/MealBlock"
+import Nav from "app/components/Nav"
+import Layout from "app/layouts/Layout"
+import deleteMeal from "app/meals/mutations/deleteMeal"
+import getMeal from "app/meals/queries/getMeal"
+import { BlitzPage, Link, useMutation, useParam, useQuery, useRouter } from "blitz"
+import { Suspense } from "react"
 
 export const Meal = () => {
   const router = useRouter()

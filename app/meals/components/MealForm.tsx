@@ -1,23 +1,19 @@
-import React, { useState } from "react"
-import { useRouter, useMutation } from "blitz"
 import {
-  Input,
-  Box,
-  Heading,
-  Button,
-  Link,
-  FormControl,
-  FormLabel,
-  FormHelperText,
   Alert,
+  AlertDescription,
   AlertIcon,
   AlertTitle,
-  AlertDescription,
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Input,
   Select,
 } from "@chakra-ui/react"
-
 import createMeal from "app/meals/mutations/createMeal"
-import updateMeal from "app/meals/mutations/updateMeal"
+import { useMutation } from "blitz"
+import React, { useState } from "react"
 
 type MealFormProps = {
   initialValues: any
@@ -29,10 +25,10 @@ const MealForm = ({ initialValues }: MealFormProps) => {
   const [createMealMutation] = useMutation(createMeal)
 
   const [isOpen, setIsOpen] = useState(false)
-  const onClose = () =>
-    setInterval(() => {
-      setIsOpen(false)
-    }, 3000)
+  // const onClose = () =>
+  //   setInterval(() => {
+  //     setIsOpen(false)
+  //   }, 3000)
 
   const onChange = (event) => {
     const { name, value } = event.target

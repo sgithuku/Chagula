@@ -1,7 +1,7 @@
 import { Ctx, NotFoundError } from "blitz"
 import db, { Prisma } from "db"
 
-type GetMealInput = Pick<Prisma.FindFirstMealArgs, "where">
+type GetMealInput = Pick<Prisma.MealFindFirstArgs, "where">
 
 export default async function getMeal({ where }: GetMealInput, ctx: Ctx) {
   ctx.session.$authorize()

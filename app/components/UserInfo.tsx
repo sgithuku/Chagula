@@ -1,8 +1,7 @@
-import { Link, BlitzPage, useMutation, useQuery, useRouter, useParam } from "blitz"
-
-import logout from "../auth/mutations/logout"
+import { Button, ButtonGroup, Container } from "@chakra-ui/react"
 import { useCurrentUser } from "app/hooks/useCurrentUser"
-import { Heading, Container, Box, Text, Image, Button, ButtonGroup } from "@chakra-ui/react"
+import { Link, useMutation } from "blitz"
+import logout from "../auth/mutations/logout"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -30,10 +29,16 @@ const UserInfo = () => {
     return (
       <Container centerContent>
         <ButtonGroup spacing="6">
-          <Button href="/signup">Sign Up</Button>
-          <Button href="/login">Log In</Button>
+          <Button>
+            <Link href="/signup">Sign Up</Link>
+          </Button>
+          <Button>
+            <Link href="/login">Log In</Link>
+          </Button>
         </ButtonGroup>
       </Container>
     )
   }
 }
+
+export default UserInfo
