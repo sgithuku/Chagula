@@ -1,26 +1,24 @@
 // import { Suspense } from "react"
-import { Link, useQuery, useParam, useMutation, setQueryData } from "blitz"
-import getMeal from "app/meals/queries/getMeal"
 import {
-  Button,
   Box,
-  Heading,
-  Image,
-  IconButton,
-  Icon,
-  useColorMode,
   FormControl,
   FormLabel,
+  Heading,
+  Icon,
+  IconButton,
+  Image,
   Switch,
+  useColorMode,
 } from "@chakra-ui/react"
-import { Plus, X } from "phosphor-react"
 import { dark, light } from "app/colors"
-
 import updateMeal from "app/meals/mutations/updateMeal"
+import getMeal from "app/meals/queries/getMeal"
+import { Link, useMutation, useQuery } from "blitz"
+import { X } from "phosphor-react"
 
 const MealBlock = (props) => {
   // const mealId = useParam("mealId", "number")
-  const { colorMode, toggleColorMode } = useColorMode()
+  const { colorMode } = useColorMode()
   const [meal, { setQueryData }] = useQuery(getMeal, { where: { id: props.meal.id } }, {})
   const [updateMealMutation] = useMutation(updateMeal)
 
@@ -82,7 +80,9 @@ const MealBlock = (props) => {
       <Box d="flex" flexDir="column">
         <Box d="flex" alignItems="center" p="3">
           <Heading as="h4" size="sm" color={dark.text}>
-            <Link href={`/meals/${meal.id}`}>{meal.name}</Link>
+            <Link href={`/meals/${meal.id}`}>
+              {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+            </Link>
           </Heading>
         </Box>
         <Heading

@@ -21,6 +21,8 @@ const theme = extendTheme({
           bgColor: mode(light.button, dark.button)(props),
         },
       },
+      scrollbarColor: mode(light.text + "!important", dark.text + "!important")(props),
+      "::-webkit-scrollbar": mode(light.text, dark.text)(props),
       ".category": {
         bgColor: mode(dark.backgroundColor, light.backgroundColor)(props),
         color: mode(dark.text, light.text)(props),
@@ -40,6 +42,9 @@ const theme = extendTheme({
       },
       "form button": {
         marginTop: "3",
+      },
+      input: {
+        color: "#171923 !important",
       },
     }),
   },

@@ -1,9 +1,9 @@
-import { useMutation } from "blitz"
-import { LabeledTextField } from "app/core/components/LabeledTextField"
-import { Form, FORM_ERROR } from "app/core/components/Form"
+import { Box, Container, Heading, Text, useColorMode } from "@chakra-ui/react"
 import signup from "app/auth/mutations/signup"
 import { Signup } from "app/auth/validations"
-import { Container, Heading, Box } from "@chakra-ui/react"
+import { Form, FORM_ERROR } from "app/core/components/Form"
+import { LabeledTextField } from "app/core/components/LabeledTextField"
+import { useMutation } from "blitz"
 
 type SignupFormProps = {
   onSuccess?: () => void
@@ -11,18 +11,22 @@ type SignupFormProps = {
 
 export const SignupForm = (props: SignupFormProps) => {
   const [signupMutation] = useMutation(signup)
+  const { colorMode } = useColorMode()
 
   return (
     <Container centerContent justifyContent="center" maxW="100%">
       <Box
-        backgroundColor="rgba(255,255,255,0.7)"
-        width="md"
+        backgroundColor={colorMode === "dark" ? "rgba(0,0,0,0.7)" : "rgba(255,255,255,0.7)"}
+        width={{ base: "100%", md: "md" }}
         borderRadius="lg"
-        p="6"
+        p={{ md: "6" }}
         border="3"
-        boxShadow="base"
+        boxShadow={{ md: "base" }}
       >
         <Heading mb="3">Create an Account</Heading>
+        <Text marginY="3">
+          You're one step away from taking control of dinner mayhem every night.{" "}
+        </Text>
 
         <Form
           submitText="Create Account"

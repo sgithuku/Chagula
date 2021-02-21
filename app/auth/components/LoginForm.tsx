@@ -17,14 +17,16 @@ export const LoginForm = (props: LoginFormProps) => {
   return (
     <Container centerContent justifyContent="center" maxW="100%">
       <Box
-        backgroundColor="rgba(255,255,255,0.7)"
-        width="md"
+        backgroundColor={colorMode === "dark" ? "rgba(0,0,0,0.7)" : "rgba(255,255,255,0.7)"}
+        width={{ base: "100%", md: "md" }}
         borderRadius="lg"
-        p="6"
+        p={{ md: "6" }}
         border="3"
-        boxShadow="base"
+        boxShadow={{ md: "base" }}
       >
         <Heading mb="3">Login</Heading>
+        <Text marginY="3">Welcome back to Chagula.</Text>
+
         <Form
           submitText="Login"
           schema={Login}

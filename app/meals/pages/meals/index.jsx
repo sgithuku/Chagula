@@ -27,20 +27,8 @@ export const MealsList = (props) => {
   const { colorMode, toggleColorMode } = useColorMode()
 
   const router = useRouter()
-  // const page = Number(router.query.page) || 0
-  // const [{ meals, hasMore }] = usePaginatedQuery(getMeals, {
-  //   orderBy: { id: "asc" },
-  //   skip: ITEMS_PER_PAGE * page,
-  //   take: ITEMS_PER_PAGE,
-  // })
-
-  // const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
-  // const goToNextPage = () => router.push({ query: { page: page + 1 } })
 
   const [meals, { setQueryData }] = useQuery(getMeals, { where: {} }, {})
-  console.log(meals)
-  // const cuisines = [...new Set(meals.meals.map((item) => item.category))] // [ 'A', 'B']
-  // const [cuisineFilter, setCuisineFilter] = useState(null)
 
   const [updateMealMutation] = useMutation(updateMeal)
 
@@ -90,25 +78,18 @@ export const MealsList = (props) => {
     }
   }, [filters])
 
-  const onDragStart = () => {
-    console.log("drag started")
-  }
-  const onDragEnd = () => {
-    console.log("drag ended")
-  }
-
   return (
     <Container
-      width="100vw"
+      width="100%"
       maxW="100%"
       // maxH="150vh"
-      flexDir="row"
+      flexDir={{ base: "column-reverse", md: "row" }}
+      m={{ base: 0 }}
       justifyContent="flex-start"
       d="flex"
       alignItems="flex-start"
-      mb="12"
     >
-      <Box width="md" flexDir="row" justifyContent="flex-start">
+      <Box width="md" flexDir="row" justifyContent="flex-start" maxW="100%">
         <Heading pl="3" size="lg" mb="3">
           Your Meals
         </Heading>
@@ -135,8 +116,8 @@ export const MealsList = (props) => {
               </Button>
             ))}
           </Box> */}
-        <Box>
-          <List spacing={3} width="md">
+        <Box w={["100%, md"]}>
+          <List spacing={3} width="md" maxW="100%">
             {searchResults.map((meal, index) => (
               <ListItem
                 index={index}
@@ -147,11 +128,14 @@ export const MealsList = (props) => {
                 borderRadius="lg"
                 borderColor="gray.50"
                 boxShadow="sm"
-                p="3"
+                pl="3"
+                paddingY="2"
                 _hover={{ bgColor: "green.900", color: "white" }}
+                justifyContent="center"
               >
                 <ListIcon
                   as={meal.selected ? ForkKnife : Plus}
+                  verticalAlign="unset"
                   color="green.500"
                   onClick={async () => {
                     try {
@@ -183,7 +167,8 @@ export const MealsList = (props) => {
         flexWrap="wrap"
         justifyItems="flex-start"
         alignItems="flex-start"
-        ml="6"
+        ml={{ md: "6" }}
+        mb={{ base: "6" }}
       >
         <Heading size="lg" mb="3">
           Meal Planner

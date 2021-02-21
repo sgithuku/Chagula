@@ -24,7 +24,7 @@ const Settings = () => {
         <Nav />
         <Box
           backgroundColor={colorMode === "dark" ? "rgba(0, 0, 0, 0.7)" : "rgba(255, 255, 255, 0.7)"}
-          width="md"
+          width={{ base: "100%", md: "md" }}
           borderRadius="lg"
           p="6"
           border="3"
@@ -46,7 +46,7 @@ const Settings = () => {
         </Box>
         <Box
           backgroundColor={colorMode === "dark" ? "rgba(0, 0, 0, 0.7)" : "rgba(255, 255, 255, 0.7)"}
-          width="md"
+          width={{ base: "100%", md: "md" }}
           borderRadius="lg"
           p="6"
           border="3"
@@ -120,7 +120,7 @@ const Settings = () => {
         </Box>
         <Box
           backgroundColor={colorMode === "dark" ? "rgba(0, 0, 0, 0.7)" : "rgba(255, 255, 255, 0.7)"}
-          width="md"
+          width={{ base: "100%", md: "md" }}
           borderRadius="lg"
           p="6"
           border="3"
