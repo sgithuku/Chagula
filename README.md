@@ -6,13 +6,13 @@ Chagula is a meal planner I built to help put some structure around how we decid
 
 **This is still very early in its development, so things are broken!**
 
-### Why Chagula?
+### Why the name Chagula?
 
-It's a Swahili abstraction of Chakula (food) and Chagua (to choose) - we couldn't think of anything better!
+It's a Swahili abstraction of Chakula (food) and Chagua (to choose) - couldn't think of anything better!
 
 ### Features
 
-- Add your own recipes and cuisines
+- Add your own recipes and cuisines (food categories for the less fancy)
 - Build your list of meals you want to eat
 - Track whether you've eaten them or not
 - Basic search/filtering
@@ -38,6 +38,7 @@ The plan is to add the following features as a priority:
 - Theming
 - Drag and drop selection for the planner
 - Calendar features in the distant future?
+- Docker container
 
 ### What is not on the list
 
@@ -45,36 +46,24 @@ The plan is to add the following features as a priority:
 
 ### Stack
 
-This is a [Blitz.js](https://github.com/blitz-js/blitz) app so if something is not described well here, the best place to look is their [docs](https://blitzjs.com/docs).
+- This is a [Blitz.js](https://github.com/blitz-js/blitz) app so if something is not described well here, the best place to look is their [docs](https://blitzjs.com/docs).
+- [Chakra-UI](chakra-ui.com/) for the UI (obviously)
+- [Vercel](https://vercel.com), [Heroku](https://heroku.com) and [Render](https://render.com) are recommended by Blitz.
 
 ### How to use
 
-1. Clone the repo to somewhere convenient
-2. Assuming this is a local install, install blitz
+1. Fork or Clone the repo to somewhere convenient
+2. To develop locally, setup blitz:
 
 ```bash
 npm i -g blitz
 ```
 
-3. Setup the database and the app itself
+3. Setup your [database](https://blitzjs.com/docs/database-overview) which may require installing postgres if you don't have it running already. The repo is setup to use Heroku but switching to the simplest (sqlite) is pretty straightforward. Change the `db/schema.prisma` using the instructions here [switch to sqlite](https://blitzjs.com/docs/database-overview#switch-to-postgresql).
 
-```bash
-// Add your meals as a db seed. Look at the seeds.ts file for inspiration
-blitz db seed
+4. [Deploy](https://blitzjs.com/docs/deploy-heroku)
 
-// Run migration (this will change with the latest version of blitz)
-blitz db migrate
-
-// start dev
-
-blitz start
-
-// setup new account
-// ** profit **
-
-```
-
-### Alternatives
+### Other, more popular options
 
 - Mealie - more for recording meals and their recipes
 - Grocy - more for managing food inventory

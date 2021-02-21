@@ -169,9 +169,10 @@ export const MealsList = (props) => {
                   }}
                 />
                 <Link href={`/meals/${meal.id}`}>
-                  <a>{meal.name}</a>
+                  {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
               </ListItem>
+              /* https://www.digitalocean.com/community/tutorials/js-capitalizing-strings */
             ))}
           </List>
         </Box>

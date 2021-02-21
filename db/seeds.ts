@@ -75,7 +75,7 @@ const days = [
   { name: "Saturday" },
 ]
 
-const seed = async () => {
+const seedDays = async () => {
   for (let i = 0; i < days.length; i++) {
     await db.day.create({
       data: {
@@ -83,15 +83,22 @@ const seed = async () => {
       },
     })
   }
+}
 
+const seedChoices = async () => {
   for (let i = 0; i < choices.length; i++) {
-    await db.meals.create({
+    await db.meal.create({
       data: {
         name: `${choices[i].name}`,
         category: `${choices[i].category}`,
       },
     })
   }
+}
+
+const seed = async () => {
+  await seedDays()
+  await seedChoices()
 }
 
 export default seed
