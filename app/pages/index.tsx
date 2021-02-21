@@ -4,7 +4,7 @@ import Nav from "app/components/Nav"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Layout from "app/core/layouts/Layout"
 import { BlitzPage } from "blitz"
-import Planner from "./planner"
+import Planner from "../components/planner"
 
 const Home: BlitzPage = () => {
   const currentUser = useCurrentUser()

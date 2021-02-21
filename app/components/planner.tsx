@@ -1,11 +1,21 @@
-import { Box, Button, ButtonGroup, Container, Heading, Icon, useColorMode } from "@chakra-ui/react"
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Container,
+  Heading,
+  Icon,
+  Image,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react"
 import Nav from "app/components/Nav"
 import updateMeal from "app/meals/mutations/updateMeal"
 import { Link, useMutation, useQuery } from "blitz"
 import { Calendar, ForkKnife, X } from "phosphor-react"
-import MealBlock from "../components/MealBlock"
 // import getMeal from "../meals/queries/getMeal"
 import getMeals from "../meals/queries/getMeals"
+import MealBlock from "./MealBlock"
 
 const Planner = () => {
   const [meals] = useQuery(getMeals, { where: {} }, {})
@@ -32,6 +42,16 @@ const Planner = () => {
           </Button>
         </ButtonGroup>
         <Box w="100%">
+          {meals.chosen < 1 ? (
+            <Box>
+              <Text size="lg" mb="3">
+                <Icon aria-label="add-meal" as={ForkKnife} weight="fill" mr="1" />
+                Head to the <b>Meal Planner</b> to add some meals or use the <b>Add new meal</b>{" "}
+                button above.
+              </Text>
+              <Image src="/plate.jpg" alt="Meal Image" w="50%" borderRadius="xl" />
+            </Box>
+          ) : null}
           {meals.chosen > 0 && <Heading>Not Eaten Yet</Heading>}
           <Box
             d="flex"

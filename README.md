@@ -49,6 +49,7 @@ The plan is to add the following features as a priority:
 - This is a [Blitz.js](https://github.com/blitz-js/blitz) app so if something is not described well here, the best place to look is their [docs](https://blitzjs.com/docs).
 - [Chakra-UI](chakra-ui.com/) for the UI (obviously)
 - [Vercel](https://vercel.com), [Heroku](https://heroku.com) and [Render](https://render.com) are recommended by Blitz.
+- Images from [Unsplash](https://unsplash.com).
 
 ### How to use
 
