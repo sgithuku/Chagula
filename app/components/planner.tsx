@@ -18,7 +18,7 @@ import getMeals from "../meals/queries/getMeals"
 import MealBlock from "./MealBlock"
 
 const Planner = () => {
-  const [meals] = useQuery(getMeals, { where: {} }, {})
+  const [meals, { refetch }] = useQuery(getMeals, { where: {} }, {})
   const [updateMealMutation] = useMutation(updateMeal)
   const { colorMode } = useColorMode()
 
@@ -103,7 +103,7 @@ const Planner = () => {
                     })
                   })
                   // await setQueryData(updated)
-                  // await refetch({ force: true })
+                  await refetch()
                   // alert("Success!" + JSON.stringify(updated))
                 } catch (error) {
                   console.log(error)
