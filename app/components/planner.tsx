@@ -22,8 +22,6 @@ const Planner = () => {
   const [meals, { refetch }] = useQuery(getMeals, { where: {} }, {})
   const [updateMealMutation] = useMutation(updateMeal)
   const { colorMode } = useColorMode()
-  const date = new Date()
-  const today = date.getDay()
 
   return (
     <Container centerContent maxW="100%">

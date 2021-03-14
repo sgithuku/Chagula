@@ -7,6 +7,8 @@ const DaysBlock = (props) => {
   const { colorMode } = useColorMode()
   const [meals, { setQueryData, refetch }] = useQuery(getMeals, { where: {} }, {})
   // console.log(meals.hasDays)
+  const long_date = new Date()
+  const date = long_date.getDay()
 
   return (
     <Box
@@ -50,6 +52,7 @@ const DaysBlock = (props) => {
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
                   key={day.day + index}
+                  fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
@@ -77,6 +80,7 @@ const DaysBlock = (props) => {
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
                   key={day.day + index}
+                  fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
@@ -104,6 +108,7 @@ const DaysBlock = (props) => {
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
                   key={day.day + index}
+                  fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
@@ -131,6 +136,7 @@ const DaysBlock = (props) => {
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
                   key={day.day + index}
+                  fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
@@ -158,6 +164,7 @@ const DaysBlock = (props) => {
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
                   key={day.day + index}
+                  fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
@@ -179,6 +186,7 @@ const DaysBlock = (props) => {
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
                   key={day.day + index}
+                  fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
@@ -200,7 +208,7 @@ const DaysBlock = (props) => {
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
                   key={day.day + index}
-                  d="flex"
+                  fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>

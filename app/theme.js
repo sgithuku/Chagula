@@ -66,6 +66,9 @@ const theme = extendTheme({
         display: "flex",
         flexDirection: "row",
       },
+      ".selected_row": {
+        color: "orange.500",
+      },
       ".strikethrough": {
         textDecoration: "line-through !important",
       },
