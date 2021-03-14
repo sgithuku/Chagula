@@ -19,9 +19,19 @@ export default async function getMeals(
   const count = await db.meal.count()
   const chosen = await db.meal.count({
     where: {
-      selected: true
-    }
+      selected: true,
+    },
   })
+
+  const hasDays = await db.meal.findMany({
+    where: {
+      day: {
+        not: null,
+      },
+    },
+  })
+  // FIXME: That is heinous.
+
   const hasMore = typeof take === "number" ? skip + take < count : false
   const nextPage = hasMore ? { take, skip: skip + take! } : null
 
@@ -30,6 +40,7 @@ export default async function getMeals(
     nextPage,
     hasMore,
     count,
-    chosen
+    chosen,
+    hasDays,
   }
 }

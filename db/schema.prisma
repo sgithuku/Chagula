@@ -67,6 +67,9 @@ model Meal {
   timesEaten    Int      @default(0)
   image_url     String?
   already_eaten Boolean  @default(false)
+  day           Int?
+  link          String?
+  recipe        String?
   days          Day[]
 }
 

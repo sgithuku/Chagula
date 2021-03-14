@@ -171,7 +171,7 @@ export const MealsList = (props) => {
         mb={{ base: "6" }}
       >
         <Heading size="lg" mb="3">
-          Meal Planner
+          {`Meal Planner [${meals.chosen}]`}
         </Heading>
         <Box
           d="flex"

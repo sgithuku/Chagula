@@ -26,13 +26,13 @@ const UserInfo = () => {
       <>
         <Link pr={["3", "3", "6"]} d="flex" alignItems="center" href="/meals">
           <Icon
-            aria-label="Meals"
+            aria-label="Meal List"
             css={{ background: "transparent" }}
             as={ForkKnife}
             weight="fill"
             mr="3"
           />
-          Meals
+          Meal List
         </Link>
         <Link pr={["3", "3", "6"]} d="flex" alignItems="center" href="/account">
           <Icon
@@ -47,6 +47,7 @@ const UserInfo = () => {
         <Button
           colorScheme={colorMode === "dark" ? dark.link : light.link}
           variant="outline"
+          alignSelf="center"
           mr={["3", "3", "6"]}
           onClick={async () => {
             await logoutMutation()

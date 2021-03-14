@@ -15,6 +15,7 @@ import { Link, useMutation, useQuery } from "blitz"
 import { Calendar, ForkKnife, X } from "phosphor-react"
 // import getMeal from "../meals/queries/getMeal"
 import getMeals from "../meals/queries/getMeals"
+import DaysBlock from "./DaysBlock"
 import MealBlock from "./MealBlock"
 
 const Planner = () => {
@@ -38,7 +39,7 @@ const Planner = () => {
           </Button>
           <Button colorScheme={colorMode === "dark" ? "gray.50" : "white"} p="3" variant="outline">
             <Icon aria-label="add-meal" as={Calendar} weight="fill" mr="1" />
-            <Link href="/meals">Meal Planner</Link>
+            <Link href="/meals">{`Meal List [${meals.chosen}]`}</Link>
           </Button>
         </ButtonGroup>
         <Box w="100%">
@@ -52,7 +53,8 @@ const Planner = () => {
               <Image src="/plate.jpg" alt="Meal Image" w="50%" borderRadius="xl" />
             </Box>
           ) : null}
-          {meals.chosen > 0 && <Heading>Not Eaten Yet</Heading>}
+          {meals.chosen > 0 && <Heading>Planner</Heading>}
+
           <Box
             d="flex"
             flexDir="row"
@@ -62,6 +64,7 @@ const Planner = () => {
             pl="0"
             ml="0"
           >
+            <DaysBlock />
             {meals.meals.map(
               (meal, index) =>
                 meal.selected && !meal.already_eaten && <MealBlock meal={meal} key={index} />

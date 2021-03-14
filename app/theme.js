@@ -46,6 +46,32 @@ const theme = extendTheme({
       input: {
         color: "#171923 !important",
       },
+      ".darkrow": {
+        backgroundColor: mode("green.700", light.backgroundColor + "!important")(props),
+        color: mode(dark.text, light.text)(props),
+        alignItems: "center",
+        paddingX: "3",
+        paddingY: "3",
+        justifyContent: "flex-start",
+        display: "flex",
+        flexDirection: "row",
+      },
+      ".row": {
+        backgroundColor: mode(light.backgroundColor + "!important", "green.700")(props),
+        color: mode(light.text, dark.text)(props),
+        alignItems: "center",
+        paddingX: "3",
+        paddingY: "3",
+        justifyContent: "flex-start",
+        display: "flex",
+        flexDirection: "row",
+      },
+      ".strikethrough": {
+        textDecoration: "line-through !important",
+      },
+      table: {
+        emptyCells: "hide",
+      },
     }),
   },
 })

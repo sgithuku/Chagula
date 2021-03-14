@@ -7,10 +7,12 @@ import {
   Icon,
   IconButton,
   Image,
+  Select,
   Switch,
   useColorMode,
 } from "@chakra-ui/react"
 import { dark, light } from "app/colors"
+import getDays from "app/days/queries/getDays"
 import updateMeal from "app/meals/mutations/updateMeal"
 import getMeal from "app/meals/queries/getMeal"
 import { Link, useMutation, useQuery } from "blitz"
@@ -20,6 +22,8 @@ const MealBlock = (props) => {
   // const mealId = useParam("mealId", "number")
   const { colorMode } = useColorMode()
   const [meal, { setQueryData }] = useQuery(getMeal, { where: { id: props.meal.id } }, {})
+  const [days] = useQuery(getDays, { where: {} }, {})
+  // console.log("days: ", days)
   const [updateMealMutation] = useMutation(updateMeal)
 
   const setEatenAlready = async () => {
@@ -30,6 +34,22 @@ const MealBlock = (props) => {
       })
       await setQueryData(updated)
       // alert("Success!" + JSON.stringify(updated))
+    } catch (error) {
+      console.log(error)
+      // alert("Error adding meal " + JSON.stringify(error, null, 2))
+    }
+  }
+
+  const setDay = async (value) => {
+    try {
+      // console.log(event)
+      const updated = await updateMealMutation({
+        where: { id: meal.id },
+        data: { day: parseFloat(event.target.value) },
+      })
+      await setQueryData(updated)
+      // alert("Success!" + JSON.stringify(updated))
+      console.log(meal)
     } catch (error) {
       console.log(error)
       // alert("Error adding meal " + JSON.stringify(error, null, 2))
@@ -50,6 +70,7 @@ const MealBlock = (props) => {
       bgColor={colorMode === "dark" ? "gray.900" : "green.700"}
       _hover={{ bgColor: "green.900" }}
       position="relative"
+      maxH="400px"
     >
       <IconButton
         aria-label="Search database"
@@ -96,19 +117,35 @@ const MealBlock = (props) => {
         >
           {meal.category?.toUpperCase()}
         </Heading>
-        <FormControl display="flex" alignItems="center" width="100%" pl="3" mb="3">
-          <FormLabel
-            htmlFor="already_eaten"
-            color={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
-          >
-            Eaten this already?
-          </FormLabel>
-          <Switch
-            isChecked={meal.already_eaten}
-            id="already_eaten"
-            onChange={setEatenAlready}
-            // colorScheme={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
-          />
+        <FormControl display="flex" width="100%" pl="3" mb="3" flexDir="column">
+          <Box d="flex" flexDir="row">
+            <FormLabel
+              htmlFor="already_eaten"
+              color={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
+            >
+              Eaten this already?
+            </FormLabel>
+            <Switch
+              isChecked={meal.already_eaten}
+              id="already_eaten"
+              onChange={setEatenAlready}
+              // colorScheme={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
+            />
+          </Box>
+          <Box pr="3">
+            <Select
+              placeholder={meal.day ? days.days[meal.day].name : "Select day"}
+              variant={colorMode === "dark" ? "outline" : "filled"}
+              color={colorMode === "dark" ? "gray.50" : "gray.900"}
+              w="100%"
+              onChange={setDay}
+              defaultValue={meal.day ? days.days[meal.day].name : "Select day"}
+            >
+              {days.days.map((day, index) => (
+                <option value={day.id}>{day.name}</option>
+              ))}
+            </Select>
+          </Box>
         </FormControl>
       </Box>
     </Box>
