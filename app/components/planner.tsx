@@ -22,6 +22,8 @@ const Planner = () => {
   const [meals, { refetch }] = useQuery(getMeals, { where: {} }, {})
   const [updateMealMutation] = useMutation(updateMeal)
   const { colorMode } = useColorMode()
+  const date = new Date()
+  const today = date.getDay()
 
   return (
     <Container centerContent maxW="100%">
@@ -66,27 +68,11 @@ const Planner = () => {
           >
             <DaysBlock />
             {meals.meals.map(
-              (meal, index) =>
-                meal.selected && !meal.already_eaten && <MealBlock meal={meal} key={index} />
+              (meal, index) => meal.selected && <MealBlock meal={meal} key={index} />
             )}
           </Box>
         </Box>
         <Box>
-          {meals.chosen > 0 && <Heading>Eaten</Heading>}
-          <Box
-            d="flex"
-            flexDir="row"
-            justifyContent="flex-start"
-            w="100%"
-            flexWrap="wrap"
-            pl="0"
-            ml="0"
-          >
-            {meals.meals.map(
-              (meal, index) =>
-                meal.selected && meal.already_eaten && <MealBlock meal={meal} key={index} />
-            )}
-          </Box>
           {meals.chosen > 0 && (
             <Button
               colorScheme={colorMode === "dark" ? "gray.50" : "white"}

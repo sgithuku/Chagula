@@ -2,13 +2,11 @@
 import {
   Box,
   FormControl,
-  FormLabel,
   Heading,
   Icon,
   IconButton,
   Image,
   Select,
-  Switch,
   useColorMode,
 } from "@chakra-ui/react"
 import { dark, light } from "app/colors"
@@ -22,32 +20,34 @@ const MealBlock = (props) => {
   // const mealId = useParam("mealId", "number")
   const { colorMode } = useColorMode()
   const [meal, { setQueryData }] = useQuery(getMeal, { where: { id: props.meal.id } }, {})
-  const [days] = useQuery(getDays, { where: {} }, {})
+  const [days, { refetch }] = useQuery(getDays, { where: {} }, {})
   // console.log("days: ", days)
   const [updateMealMutation] = useMutation(updateMeal)
 
-  const setEatenAlready = async () => {
-    try {
-      const updated = await updateMealMutation({
-        where: { id: meal.id },
-        data: { already_eaten: !meal.already_eaten },
-      })
-      await setQueryData(updated)
-      // alert("Success!" + JSON.stringify(updated))
-    } catch (error) {
-      console.log(error)
-      // alert("Error adding meal " + JSON.stringify(error, null, 2))
-    }
-  }
+  // const setEatenAlready = async () => {
+  //   try {
+  //     const updated = await updateMealMutation({
+  //       where: { id: meal.id },
+  //       data: { already_eaten: !meal.already_eaten },
+  //     })
+  //     await setQueryData(updated)
+  //     await refetch({ force: true })
+  //     // alert("Success!" + JSON.stringify(updated))
+  //   } catch (error) {
+  //     console.log(error)
+  //     // alert("Error adding meal " + JSON.stringify(error, null, 2))
+  //   }
+  // }
 
   const setDay = async (value) => {
     try {
       // console.log(event)
-      const updated = await updateMealMutation({
+      await updateMealMutation({
         where: { id: meal.id },
         data: { day: parseFloat(event.target.value) },
       })
-      await setQueryData(updated)
+      // await setQueryData(updated)
+      await refetch({ force: true })
       // alert("Success!" + JSON.stringify(updated))
       console.log(meal)
     } catch (error) {
@@ -70,7 +70,7 @@ const MealBlock = (props) => {
       bgColor={colorMode === "dark" ? "gray.900" : "green.700"}
       _hover={{ bgColor: "green.900" }}
       position="relative"
-      maxH="400px"
+      maxH="350px"
     >
       <IconButton
         aria-label="Search database"
@@ -96,7 +96,11 @@ const MealBlock = (props) => {
         left="-5"
         icon={<Icon aria-label="Meals" color={dark.text} as={X} weight="fill" />}
       />
-      <Image src={`/${meal.image_url ? meal.image_url : meal.category}.jpg`} alt={"meal picture"} />
+      <Image
+        src={`/${meal.image_url ? meal.image_url : meal.category}.jpg`}
+        alt={"meal picture"}
+        borderTopRadius="lg"
+      />
 
       <Box d="flex" flexDir="column">
         <Box d="flex" alignItems="center" p="3">
@@ -118,7 +122,7 @@ const MealBlock = (props) => {
           {meal.category?.toUpperCase()}
         </Heading>
         <FormControl display="flex" width="100%" pl="3" mb="3" flexDir="column">
-          <Box d="flex" flexDir="row">
+          {/* <Box d="flex" flexDir="row">
             <FormLabel
               htmlFor="already_eaten"
               color={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
@@ -131,7 +135,7 @@ const MealBlock = (props) => {
               onChange={setEatenAlready}
               // colorScheme={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
             />
-          </Box>
+          </Box> */}
           <Box pr="3">
             <Select
               placeholder={meal.day ? days.days[meal.day].name : "Select day"}
@@ -142,7 +146,9 @@ const MealBlock = (props) => {
               defaultValue={meal.day ? days.days[meal.day].name : "Select day"}
             >
               {days.days.map((day, index) => (
-                <option value={day.id}>{day.name}</option>
+                <option value={day.id} key={day.id + index}>
+                  {day.name}
+                </option>
               ))}
             </Select>
           </Box>
