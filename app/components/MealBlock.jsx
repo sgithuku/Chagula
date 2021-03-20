@@ -14,7 +14,7 @@ import { dark, light } from "app/colors"
 import getDays from "app/days/queries/getDays"
 import updateMeal from "app/meals/mutations/updateMeal"
 import getMeal from "app/meals/queries/getMeal"
-import { useMutation, useQuery } from "blitz"
+import { useMutation, useQuery, useRouter } from "blitz"
 import { X } from "phosphor-react"
 
 const MealBlock = (props) => {
@@ -24,6 +24,8 @@ const MealBlock = (props) => {
   const [days, { refetch }] = useQuery(getDays, { where: {} }, {})
   // console.log("days: ", days)
   const [updateMealMutation] = useMutation(updateMeal)
+  const router = useRouter()
+  console.log("this is the router: ", router)
 
   // const setEatenAlready = async () => {
   //   try {
@@ -136,22 +138,26 @@ const MealBlock = (props) => {
               // colorScheme={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
             />
           </Box> */}
-          <Box pr="3">
-            <Select
-              placeholder={meal.day ? days.days[meal.day].name : "Select day"}
-              variant={colorMode === "dark" ? "outline" : "filled"}
-              color={colorMode === "dark" ? "gray.50" : "gray.900"}
-              w="100%"
-              onChange={setDay}
-              defaultValue={meal.day ? days.days[meal.day].name : "Select day"}
-            >
-              {days.days.map((day, index) => (
-                <option value={day.id} key={day.id + index}>
-                  {day.name}
-                </option>
-              ))}
-            </Select>
-          </Box>
+          {router.pathname === "/" ? (
+            <Box pr="3">
+              <Select
+                placeholder={meal.day ? days.days[meal.day].name : "Select day"}
+                variant={colorMode === "dark" ? "outline" : "filled"}
+                color={colorMode === "dark" ? "gray.50" : "gray.900"}
+                w="100%"
+                onChange={setDay}
+                defaultValue={meal.day ? days.days[meal.day].name : "Select day"}
+              >
+                {days.days.map((day, index) => (
+                  <option value={day.id} key={day.id + index}>
+                    {day.name}
+                  </option>
+                ))}
+              </Select>
+            </Box>
+          ) : (
+            <></>
+          )}
         </FormControl>
       </Box>
     </Box>

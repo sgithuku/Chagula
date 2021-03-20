@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react"
 import Nav from "app/components/Nav"
 import updateMeal from "app/meals/mutations/updateMeal"
-import { Link, useMutation, useQuery } from "blitz"
+import { Link, useMutation, useQuery, useRouter } from "blitz"
 import { Calendar, ForkKnife, X } from "phosphor-react"
 // import getMeal from "../meals/queries/getMeal"
 import getMeals from "../meals/queries/getMeals"
@@ -22,6 +22,8 @@ const Planner = () => {
   const [meals, { refetch }] = useQuery(getMeals, { where: {} }, {})
   const [updateMealMutation] = useMutation(updateMeal)
   const { colorMode } = useColorMode()
+  const router = useRouter()
+  console.log("this is the router: ", router)
 
   return (
     <Container centerContent maxW="100%">

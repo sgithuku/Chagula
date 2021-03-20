@@ -24,8 +24,8 @@ const RecipeDetails = (props) => {
       _hover={{ bgColor: "green.900" }}
       // maxH="350px"
     >
-      <Box borderTopRadius="lg" p="3" bgColor={colorMode === "dark" ? "gray.50" : "green.50"}>
-        {props.meal.link ? (
+      {props.meal.link ? (
+        <Box borderTopRadius="lg" p="3" bgColor={colorMode === "dark" ? "gray.50" : "green.50"}>
           <Link
             href={props.meal.link}
             color={colorMode === "dark" ? "gray.900" : "green.700"}
@@ -33,7 +33,7 @@ const RecipeDetails = (props) => {
             textDecoration="underline"
             _hover={{ textDecoration: "none" }}
           >
-            Link to recipe{" "}
+            {props.meal.link}
             <Icon
               aria-label="recipe link"
               color={light.text}
@@ -42,17 +42,17 @@ const RecipeDetails = (props) => {
               px="3"
             />
           </Link>
-        ) : null}
-      </Box>
-      <Box px="3" pb="3" pt="1">
-        {props.meal.recipe ? (
+        </Box>
+      ) : null}
+      {props.meal.recipe ? (
+        <Box px="3" pb="3" pt="1" borderTopRadius={props.meal.link ? null : "lg"}>
           <ReactMarkdown
             renderers={ChakraUIRenderer()}
             source={props.meal.recipe}
             escapeHtml={false}
           />
-        ) : null}
-      </Box>
+        </Box>
+      ) : null}
     </Box>
   )
 }
