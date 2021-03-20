@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react"
 import MealBlock from "app/components/MealBlock"
 import Nav from "app/components/Nav"
+import RecipeDetails from "app/components/Recipe_Details"
 import Layout from "app/layouts/Layout"
 import deleteMeal from "app/meals/mutations/deleteMeal"
 import getMeal from "app/meals/queries/getMeal"
@@ -43,11 +44,16 @@ export const Meal = () => {
           </BreadcrumbItem>
 
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#">{meal.name}</BreadcrumbLink>
+            <BreadcrumbLink href="#">
+              {meal.name?.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+            </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
-        <MealBlock meal={meal} />
-        {/* <pre>{JSON.stringify(meal, null, 2)}</pre> */}
+        <Box d="flex" flexDir="row" height="inherit">
+          <MealBlock meal={meal} />
+          {meal.recipe || meal.link ? <RecipeDetails meal={meal} /> : null}
+        </Box>
+
         <ButtonGroup>
           <Button width="100%" mb="3" colorScheme="gray.900" variant="outline">
             <Link href={`/meals/${meal.id}/edit`}>

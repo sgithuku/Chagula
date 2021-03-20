@@ -2,11 +2,11 @@ import { Box, Button, Container, Heading } from "@chakra-ui/react"
 import Nav from "app/components/Nav"
 import Layout from "app/layouts/Layout"
 import MealForm from "app/meals/components/MealForm"
-// import createMeal from "app/meals/mutations/createMeal"
-import { BlitzPage, Link } from "blitz"
+import createMeal from "app/meals/mutations/createMeal"
+import { BlitzPage, Link, useMutation } from "blitz"
 
 const NewMealPage: BlitzPage = () => {
-  // const [createMealMutation] = useMutation(createMeal)
+  const [createMealMutation] = useMutation(createMeal)
 
   return (
     <Container centerContent>
@@ -14,15 +14,18 @@ const NewMealPage: BlitzPage = () => {
 
       <MealForm
         initialValues={{}}
-        // onSubmit={async () => {
-        //   try {
-        //     const meal = await createMealMutation({ data: { name: "MyName" } })
-        //     alert("Success!" + JSON.stringify(meal))
-        //     router.push(`/meals/${meal.id}`)
-        //   } catch (error) {
-        //     alert("Error creating meal " + JSON.stringify(error, null, 2))
-        //   }
-        // }}
+        onSubmit={async (state, event) => {
+          console.log("onSubmit called", state, event)
+          // event.preventDefault()
+          try {
+            // createMeal({ data: state })
+            createMealMutation({ data: state })
+            // alert("Success!" + JSON.stringify(state))
+            // setIsOpen(true)
+          } catch (error) {
+            console.log("Error creating meal", error)
+          }
+        }}
       />
 
       <Box mt="6" mb="6">

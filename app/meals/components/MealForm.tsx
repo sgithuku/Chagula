@@ -5,48 +5,54 @@ import {
   AlertTitle,
   Box,
   Button,
+  ButtonGroup,
   FormControl,
-  FormHelperText,
+  FormErrorMessage,
   FormLabel,
+  Image,
   Input,
+  Progress,
   Select,
+  Textarea,
 } from "@chakra-ui/react"
 import createMeal from "app/meals/mutations/createMeal"
 import { useMutation } from "blitz"
 import React, { useState } from "react"
-
+import { Field, Form, useField, useForm } from "react-final-form"
+import validate from "./validate"
 type MealFormProps = {
   initialValues: any
+  onSubmit: any
   // onSubmit: React.FormEventHandler<HTMLFormElement>
 }
 
-const MealForm = ({ initialValues }: MealFormProps) => {
+const MealForm = ({ initialValues, onSubmit }: MealFormProps) => {
   const [formState, setFormState] = useState(initialValues)
   const [createMealMutation] = useMutation(createMeal)
 
   const [isOpen, setIsOpen] = useState(false)
-  // const onClose = () =>
-  //   setInterval(() => {
-  //     setIsOpen(false)
-  //   }, 3000)
+  const onClose = () =>
+    setInterval(() => {
+      setIsOpen(false)
+    }, 3000)
 
   const onChange = (event) => {
     const { name, value } = event.target
     setFormState({ ...formState, [name]: value })
   }
 
-  const onSubmit = (state, event) => {
-    // console.log("onSubmit called", formState)
-    event.preventDefault()
-    try {
-      // createMeal({ data: state })
-      createMealMutation({ data: state })
-      alert("Success!" + JSON.stringify(state))
-      setIsOpen(true)
-    } catch (error) {
-      console.log("Error creating meal", error)
-    }
-  }
+  // const onSubmit = (state, event) => {
+  //   console.log("onSubmit called", state, event)
+  //   // event.preventDefault()
+  //   try {
+  //     // createMeal({ data: state })
+  //     createMealMutation({ data: state })
+  //     // alert("Success!" + JSON.stringify(state))
+  //     setIsOpen(true)
+  //   } catch (error) {
+  //     console.log("Error creating meal", error)
+  //   }
+  // }
 
   const Success = () => {
     if (isOpen) {
@@ -63,6 +69,69 @@ const MealForm = ({ initialValues }: MealFormProps) => {
     }
   }
 
+  const Control = ({ name, ...rest }) => {
+    const {
+      meta: { error, touched },
+    } = useField(name, { subscription: { touched: true, error: true } })
+    return <FormControl {...rest} isInvalid={error && touched} />
+  }
+
+  const Error = ({ name }) => {
+    const {
+      meta: { error },
+    } = useField(name, { subscription: { error: true } })
+    return <FormErrorMessage>{error}</FormErrorMessage>
+  }
+
+  const InputControl = ({ name, label }) => {
+    const { input, meta } = useField(name)
+    return (
+      <Control name={name} my={4}>
+        <FormLabel htmlFor={name}>{label}</FormLabel>
+        <Input {...input} isInvalid={meta.error && meta.touched} id={name} placeholder={label} />
+        <Error name={name} />
+      </Control>
+    )
+  }
+
+  const TextareaControl = ({ name, label }) => (
+    <Control name={name} my={4}>
+      <FormLabel htmlFor={name}>{label}</FormLabel>
+      <Field name={name} component={AdaptedTextarea} placeholder={label} id={name} />
+      <Error name={name} />
+    </Control>
+  )
+  const SelectControl = ({ name, label, children }) => (
+    <Control name={name} my={4}>
+      <FormLabel htmlFor={name}>{label}</FormLabel>
+      <Field name={name} placeholder={label} id={name} component={AdaptedSelect}>
+        {children}
+      </Field>
+      <Error name={name} />
+    </Control>
+  )
+
+  const PercentComplete = (props) => {
+    const form = useForm()
+    const numFields = form.getRegisteredFields().length
+    const numErrors = Object.keys(form.getState().errors).length
+    // console.log("form", numFields, numErrors)
+    return (
+      <Progress
+        value={numFields === 0 ? 0 : ((numFields - numErrors) / numFields) * 100}
+        colorScheme="green"
+        {...props}
+      />
+    )
+  }
+
+  const AdaptedTextarea = ({ input, meta, ...rest }) => (
+    <Textarea {...input} {...rest} isInvalid={meta.error && meta.touched} />
+  )
+  const AdaptedSelect = ({ input, meta, ...rest }) => (
+    <Select {...input} {...rest} isInvalid={meta.error && meta.touched} />
+  )
+
   return (
     <Box
       border="1px"
@@ -73,48 +142,55 @@ const MealForm = ({ initialValues }: MealFormProps) => {
       width="md"
       boxShadow="xl"
     >
-      <FormControl onSubmit={(event) => onSubmit(formState, event)}>
-        <Box d="flex" flexDir="column" mb="3" justifyContent="flex-start">
-          <FormLabel mt="3">Meal</FormLabel>
-          <Input type="text" name="name" value={formState.name} onChange={onChange} />
-          <FormHelperText>What is the meal?</FormHelperText>
-        </Box>
-        <Box d="flex" flexDir="column" mb="3" justifyContent="flex-start">
-          <FormLabel mt="3">Custom image</FormLabel>
-          <Input type="text" name="image_url" value={formState.image_url} onChange={onChange} />
-          <FormHelperText>Upload a custom image for the meal (not required)</FormHelperText>
-        </Box>
-
-        <Box d="flex" flexDir="column" mb="3" justifyContent="flex-start">
-          <FormLabel pr="0" width="100%">
-            Type of Cuisine
-            <Select
-              placeholder="Select cuisine"
-              value={formState.category}
-              onChange={onChange}
-              name="category"
-            >
+      <Form
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validate={validate}
+        render={({ handleSubmit, form, errors, submitting, pristine, values }) => (
+          <Box as="form" onSubmit={handleSubmit}>
+            <InputControl name="name" label="Meal" />
+            <SelectControl name="category" label="Select cuisine">
+              <option value="african">African</option>
               <option value="baking">Baking</option>
               <option value="dessert">Dessert</option>
               <option value="asian">East Asian</option>
               <option value="european">European</option>
               <option value="indian">Indian</option>
               <option value="mexican">Mexican</option>
-            </Select>
-          </FormLabel>
-          {/* <Input type="text" name="category" value={formState.category} onChange={onChange} /> */}
-          <FormHelperText>What kind of food is it?</FormHelperText>
-          <Box d="flex" flexDir="column" mb="3" justifyContent="flex-start">
-            <FormLabel mt="3">Recipe</FormLabel>
-            <Input type="text" name="recipe" value={formState.name} onChange={onChange} />
-            <FormHelperText>Add a link to a recipe here (not required)</FormHelperText>
+            </SelectControl>
+            {values.category ? (
+              <Image
+                src={`/${values.category}.jpg`}
+                alt={"meal picture"}
+                borderRadius="lg"
+                // maxH="200px"
+              />
+            ) : null}
+            <InputControl name="link" label="Link to recipe" />
+            <TextareaControl name="recipe" label="Recipe / Notes" />
+            <PercentComplete size="sm" my={2} isAnimated />
+            <ButtonGroup spacing={4}>
+              <Button
+                type="submit"
+                loadingText="Submitting"
+                colorScheme="gray.900"
+                variant="outline"
+                isLoading={submitting}
+              >
+                Submit
+              </Button>
+              <Button
+                colorScheme="gray.900"
+                variant="outline"
+                onClick={form.reset}
+                isDisabled={submitting || pristine}
+              >
+                Reset
+              </Button>
+            </ButtonGroup>
           </Box>
-        </Box>
-
-        <Button width="100%" mb="3" colorScheme="gray.900" variant="outline">
-          Submit
-        </Button>
-      </FormControl>
+        )}
+      />
       <Box p="3">
         <Success />
       </Box>

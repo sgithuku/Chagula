@@ -26,7 +26,7 @@ const Planner = () => {
   return (
     <Container centerContent maxW="100%">
       <Nav />
-      <Container maxW="100vw">
+      <Container maxW="100vw" centerContent>
         <ButtonGroup spacing="3" marginBottom="6">
           <Button
             colorScheme={colorMode === "dark" ? "gray.50" : "white"}
@@ -43,28 +43,22 @@ const Planner = () => {
           </Button>
         </ButtonGroup>
         <Box w="100%">
-          {meals.chosen < 1 ? (
-            <Box>
-              <Text size="lg" mb="3">
-                <Icon aria-label="add-meal" as={ForkKnife} weight="fill" mr="1" />
-                Head to the <b>Meal Planner</b> to add some meals or use the <b>Add new meal</b>{" "}
-                button above.
-              </Text>
-              <Image src="/plate.jpg" alt="Meal Image" w="50%" borderRadius="xl" />
-            </Box>
-          ) : null}
-          {meals.chosen > 0 && <Heading>Planner</Heading>}
+          <Container centerContent>
+            {meals.chosen < 1 ? (
+              <Box>
+                <Text size="lg" mb="3">
+                  <Icon aria-label="add-meal" as={ForkKnife} weight="fill" mr="1" />
+                  Head to the <b>Meal Planner</b> to add some meals or use the <b>Add new meal</b>{" "}
+                  button above.
+                </Text>
+                <Image src="/plate.jpg" alt="Meal Image" w="50%" borderRadius="xl" />
+              </Box>
+            ) : null}
+            {meals.chosen > 0 && <Heading>Planner</Heading>}
 
-          <Box
-            d="flex"
-            flexDir="row"
-            justifyContent="flex-start"
-            w="100%"
-            flexWrap="wrap"
-            pl="0"
-            ml="0"
-          >
             <DaysBlock />
+          </Container>
+          <Box d="flex" flexDir="row" justifyContent="center" flexWrap="wrap">
             {meals.meals.map(
               (meal, index) => meal.selected && <MealBlock meal={meal} key={index} />
             )}

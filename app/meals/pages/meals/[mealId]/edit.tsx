@@ -1,17 +1,25 @@
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Container } from "@chakra-ui/react"
+import {
+  Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Container,
+  Heading,
+} from "@chakra-ui/react"
 import Nav from "app/components/Nav"
 import Layout from "app/layouts/Layout"
 import MealForm from "app/meals/components/MealForm"
-// import updateMeal from "app/meals/mutations/updateMeal"
+import updateMeal from "app/meals/mutations/updateMeal"
 import getMeal from "app/meals/queries/getMeal"
-import { BlitzPage, useParam, useQuery } from "blitz"
+import { BlitzPage, useMutation, useParam, useQuery, useRouter } from "blitz"
 import { Suspense } from "react"
 
 export const EditMeal = () => {
   const mealId = useParam("mealId", "number")
-  const [meal] = useQuery(getMeal, { where: { id: mealId } })
-  // const [updateMealMutation] = useMutation(updateMeal)
+  const [meal, { setQueryData }] = useQuery(getMeal, { where: { id: mealId } })
+  const [updateMealMutation] = useMutation(updateMeal)
   // console.log("this is the meal", meal)
+  const router = useRouter()
 
   return (
     <Container
@@ -41,20 +49,21 @@ export const EditMeal = () => {
 
         <MealForm
           initialValues={meal}
-          // onSubmit={async () => {
-          //   try {
-          //     const updated = await updateMealMutation({
-          //       where: { id: meal.id },
-          //       data: { name: "MyNewName" },
-          //     })
-          //     await setQueryData(updated)
-          //     alert("Success!" + JSON.stringify(updated))
-          //     router.push(`/meals/${updated.id}`)
-          //   } catch (error) {
-          //     console.log(error)
-          //     alert("Error editing meal " + JSON.stringify(error, null, 2))
-          //   }
-          // }}
+          onSubmit={async (state, event) => {
+            try {
+              // await console.log(state.id)
+              const updated = await updateMealMutation({
+                where: { id: state.id },
+                data: state,
+              })
+              await setQueryData(updated)
+              // alert("Success!" + JSON.stringify(updated))
+              router.push(`/meals/${updated.id}`)
+            } catch (error) {
+              console.log(error)
+              // alert("Error editing meal " + JSON.stringify(error, null, 2))
+            }
+          }}
         />
       </Box>
     </Container>
@@ -63,7 +72,7 @@ export const EditMeal = () => {
 
 const EditMealPage: BlitzPage = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Heading>Loading...</Heading>}>
       <EditMeal />
     </Suspense>
   )

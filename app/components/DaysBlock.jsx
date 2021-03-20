@@ -12,7 +12,8 @@ const DaysBlock = (props) => {
 
   return (
     <Box
-      w="sm"
+      w="md"
+      maxW="100%"
       borderWidth="1px"
       borderRadius="lg"
       borderColor={colorMode === "dark" ? "gray.900" : "green.700"}

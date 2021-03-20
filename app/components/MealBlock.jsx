@@ -6,6 +6,7 @@ import {
   Icon,
   IconButton,
   Image,
+  Link,
   Select,
   useColorMode,
 } from "@chakra-ui/react"
@@ -13,7 +14,7 @@ import { dark, light } from "app/colors"
 import getDays from "app/days/queries/getDays"
 import updateMeal from "app/meals/mutations/updateMeal"
 import getMeal from "app/meals/queries/getMeal"
-import { Link, useMutation, useQuery } from "blitz"
+import { useMutation, useQuery } from "blitz"
 import { X } from "phosphor-react"
 
 const MealBlock = (props) => {
@@ -70,7 +71,6 @@ const MealBlock = (props) => {
       bgColor={colorMode === "dark" ? "gray.900" : "green.700"}
       _hover={{ bgColor: "green.900" }}
       position="relative"
-      maxH="350px"
     >
       <IconButton
         aria-label="Search database"

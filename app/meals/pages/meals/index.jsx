@@ -67,7 +67,7 @@ export const MealsList = (props) => {
         [...meals.meals].filter((document) => {
           let flag = true
           ;[...filters].map((filter) => {
-            // console.log("this is filter", filter, document);
+            console.log("this is filter", filter)
             if (!document.name.includes(filter)) flag = false
           })
           return flag
