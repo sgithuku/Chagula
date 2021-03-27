@@ -1,20 +1,11 @@
-import React from "react"
+import { Icon, Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 // import { FiSearch } from "react-icons/fi";
 import { MagnifyingGlass } from "phosphor-react"
-import {
-  Container,
-  Input,
-  Button,
-  IconButton,
-  InputGroup,
-  InputLeftElement,
-  colorMode,
-  Icon,
-} from "@chakra-ui/react"
+import React from "react"
 
 const SearchBar = ({ onSearch, customColor }) => {
   return (
-    <InputGroup width="100%">
+    <InputGroup width="100%" maxW="md">
       <InputLeftElement pointerEvents="none" children={<Icon as={MagnifyingGlass} />} />
       <Input
         id="search-input"

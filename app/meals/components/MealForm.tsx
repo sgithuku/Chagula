@@ -139,7 +139,7 @@ const MealForm = ({ initialValues, onSubmit }: MealFormProps) => {
       borderColor="gray.500"
       p="3"
       mt="3"
-      width="md"
+      width={["100%", "100%", "md"]}
       boxShadow="xl"
     >
       <Form

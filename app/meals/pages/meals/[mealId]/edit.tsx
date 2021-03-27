@@ -43,7 +43,9 @@ export const EditMeal = () => {
           </BreadcrumbItem>
 
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#">{meal.name}</BreadcrumbLink>
+            <BreadcrumbLink href="#">
+              {meal.name?.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+            </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
 

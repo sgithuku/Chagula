@@ -21,8 +21,8 @@ const theme = extendTheme({
           bgColor: mode(light.button, dark.button)(props),
         },
       },
-      // "scrollbarColor": mode(light.text + "!important", dark.text + "!important")(props),
-      // "::-webkit-scrollbar": mode(light.text, dark.text)(props),
+      scrollbarColor: mode(dark.backgroundColor, light.backgroundColor)(props),
+      scrollbarWidth: "thin !important",
       ".category": {
         bgColor: mode(dark.backgroundColor, light.backgroundColor)(props),
         color: mode(dark.text, light.text)(props),

@@ -25,22 +25,7 @@ const MealBlock = (props) => {
   // console.log("days: ", days)
   const [updateMealMutation] = useMutation(updateMeal)
   const router = useRouter()
-  console.log("this is the router: ", router)
-
-  // const setEatenAlready = async () => {
-  //   try {
-  //     const updated = await updateMealMutation({
-  //       where: { id: meal.id },
-  //       data: { already_eaten: !meal.already_eaten },
-  //     })
-  //     await setQueryData(updated)
-  //     await refetch({ force: true })
-  //     // alert("Success!" + JSON.stringify(updated))
-  //   } catch (error) {
-  //     console.log(error)
-  //     // alert("Error adding meal " + JSON.stringify(error, null, 2))
-  //   }
-  // }
+  // console.log("this is the router: ", router)
 
   const setDay = async (value) => {
     try {
@@ -124,20 +109,6 @@ const MealBlock = (props) => {
           {meal.category?.toUpperCase()}
         </Heading>
         <FormControl display="flex" width="100%" pl="3" mb="3" flexDir="column">
-          {/* <Box d="flex" flexDir="row">
-            <FormLabel
-              htmlFor="already_eaten"
-              color={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
-            >
-              Eaten this already?
-            </FormLabel>
-            <Switch
-              isChecked={meal.already_eaten}
-              id="already_eaten"
-              onChange={setEatenAlready}
-              // colorScheme={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
-            />
-          </Box> */}
           {router.pathname === "/" ? (
             <Box pr="3">
               <Select

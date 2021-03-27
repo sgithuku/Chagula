@@ -1,15 +1,4 @@
-import {
-  Box,
-  Container,
-  Heading,
-  Icon,
-  Image,
-  List,
-  ListIcon,
-  ListItem,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react"
+import { Box, Container, Heading, List, ListIcon, ListItem, useColorMode } from "@chakra-ui/react"
 import Layout from "app/layouts/Layout"
 import updateMeal from "app/meals/mutations/updateMeal"
 import getMeals from "app/meals/queries/getMeals"
@@ -17,7 +6,6 @@ import { Link, useMutation, useQuery, useRouter } from "blitz"
 import { ForkKnife, Plus } from "phosphor-react"
 import React, { Suspense, useEffect, useReducer, useState } from "react"
 import Filters from "../../../components/Filters"
-import MealBlock from "../../../components/MealBlock"
 import Nav from "../../../components/Nav"
 import SearchBar from "../../../components/SearchBar"
 
@@ -28,7 +16,7 @@ export const MealsList = (props) => {
 
   const router = useRouter()
 
-  const [meals, { setQueryData }] = useQuery(getMeals, { where: {} }, {})
+  const [meals, { setQueryData }] = useQuery(getMeals, { where: {}, orderBy: { name: "asc" } }, {})
 
   const [updateMealMutation] = useMutation(updateMeal)
 
@@ -83,26 +71,25 @@ export const MealsList = (props) => {
       width="100%"
       maxW="100%"
       // maxH="150vh"
-      flexDir={{ base: "column-reverse", md: "row" }}
       m={{ base: 0 }}
-      justifyContent="flex-start"
+      justifyContent="center"
       d="flex"
-      alignItems="flex-start"
+      flexDir="column"
+      alignItems="center"
     >
-      <Box width="md" flexDir="row" justifyContent="flex-start" maxW="100%">
-        <Heading pl="3" size="lg" mb="3">
-          Your Meals
-        </Heading>
-        <SearchBar onSearch={searchAction} customColor={"gray.50"} />
-        {filters.size !== 0 && (
-          <Filters
-            filters={filters}
-            filterDispatcher={filterDispatcher}
-            // customBG={colorMode === "dark" ? "blue.700" : "blue.700"}
-            customColor={"green.500"}
-          />
-        )}
-        {/* <Box d="flex" justifyContent="space-between" mt="3" mb="3">
+      <Heading pl="3" size="lg" mb="3">
+        Your Meals
+      </Heading>
+      <SearchBar onSearch={searchAction} customColor={"gray.50"} />
+      {filters.size !== 0 && (
+        <Filters
+          filters={filters}
+          filterDispatcher={filterDispatcher}
+          // customBG={colorMode === "dark" ? "blue.700" : "blue.700"}
+          customColor={"green.500"}
+        />
+      )}
+      {/* <Box d="flex" justifyContent="space-between" mt="3" mb="3">
             {cuisines.map((food, index) => (
               <Button
                 // color={colorMode === "dark" ? "gray.50" : "gray.700"}
@@ -116,85 +103,55 @@ export const MealsList = (props) => {
               </Button>
             ))}
           </Box> */}
-        <Box w={["100%, md"]}>
-          <List spacing={3} width="md" maxW="100%">
-            {searchResults.map((meal, index) => (
-              <ListItem
-                index={index}
-                // key={`${meal.id}`}
-                key={`${meal.id}`}
-                disabled={filters.size !== 0}
-                borderWidth="1px"
-                borderRadius="lg"
-                borderColor="gray.50"
-                boxShadow="sm"
-                pl="3"
-                paddingY="2"
-                _hover={{ bgColor: "green.900", color: "white" }}
-                justifyContent="center"
-              >
-                <ListIcon
-                  as={meal.selected ? ForkKnife : Plus}
-                  verticalAlign="unset"
-                  color="green.500"
-                  onClick={async () => {
-                    try {
-                      const updated = await updateMealMutation({
-                        where: { id: meal.id },
-                        data: { selected: !meal.selected },
-                      })
-                      await setQueryData(updated)
-                      await refetch({ force: true })
-                      // alert("Success!" + JSON.stringify(updated))
-                    } catch (error) {
-                      console.log(error)
-                      // alert("Error adding meal " + JSON.stringify(error, null, 2))
-                    }
-                  }}
-                />
-                <Link href={`/meals/${meal.id}`}>
-                  {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
-                </Link>
-              </ListItem>
-              /* https://www.digitalocean.com/community/tutorials/js-capitalizing-strings */
-            ))}
-          </List>
-        </Box>
-      </Box>
-      <Box
-        d="flex"
-        flexDir="column"
-        flexWrap="wrap"
-        justifyItems="flex-start"
-        alignItems="flex-start"
-        ml={{ md: "6" }}
-        mb={{ base: "6" }}
-      >
-        <Heading size="lg" mb="3">
-          {`Meal Planner [${meals.chosen}]`}
-        </Heading>
-        <Box
-          d="flex"
-          flexDir="row"
-          flexWrap="wrap"
-          justifyContent="flex-start"
-          alignItems="flex-start"
-        >
-          {meals.chosen < 1 ? (
-            <Box>
-              <Text size="lg" mb="3">
-                <Icon aria-label="add-meal" as={ForkKnife} weight="fill" mr="1" />
-                Add food to your planner using the list on the left.
-              </Text>
-              <Image src="/plate.jpg" alt="Meal Image" borderRadius="xl" />
-            </Box>
-          ) : null}
-          {meals.meals ? (
-            meals.meals.map((meal, index) => meal.selected && <MealBlock meal={meal} />)
-          ) : (
-            <Heading as="h3"> Loading...</Heading>
-          )}
-        </Box>
+      <Box w={"100%"}>
+        <List d="flex" flexDir="row" flexWrap="wrap" justifyContent="center">
+          {searchResults.map((meal, index) => (
+            <ListItem
+              index={index}
+              // key={`${meal.id}`}
+              key={`${meal.id}`}
+              disabled={filters.size !== 0}
+              paddingY="2"
+              _hover={{ bgColor: "green.900", color: "white" }}
+              justifyContent="center"
+              width="sm"
+              borderWidth="1px"
+              borderRadius="lg"
+              borderColor={colorMode === "dark" ? "gray.900" : "green.700"}
+              color="white"
+              marginBottom="1em"
+              boxShadow="xl"
+              bgColor={colorMode === "dark" ? "gray.900" : "green.700"}
+              mr="3"
+            >
+              <ListIcon
+                as={meal.selected ? ForkKnife : Plus}
+                verticalAlign="center"
+                color="green.500"
+                ml="3"
+                color={colorMode === "dark" ? "green.700" : "gray.50"}
+                onClick={async () => {
+                  try {
+                    const updated = await updateMealMutation({
+                      where: { id: meal.id },
+                      data: { selected: !meal.selected },
+                    })
+                    await setQueryData(updated)
+                    await refetch({ force: true })
+                    // alert("Success!" + JSON.stringify(updated))
+                  } catch (error) {
+                    console.log(error)
+                    // alert("Error adding meal " + JSON.stringify(error, null, 2))
+                  }
+                }}
+              />
+              <Link href={`/meals/${meal.id}`}>
+                {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+              </Link>
+            </ListItem>
+            /* https://www.digitalocean.com/community/tutorials/js-capitalizing-strings */
+          ))}
+        </List>
       </Box>
     </Container>
   )

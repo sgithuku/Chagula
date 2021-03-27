@@ -231,11 +231,14 @@ const EatenSwitch = (meal, refetch) => {
     try {
       await updateMealMutation({
         where: { id: meal.id },
-        data: { already_eaten: !meal.already_eaten },
+        data: {
+          already_eaten: !meal.already_eaten,
+          timesEaten: already_eaten ? meal.timesEaten + 1 : meal.timesEaten,
+        },
       })
       await refetch({ force: true })
       // await setQueryData(updated)
-      // alert("Success!" + JSON.stringify(updated))
+      alert("Success!" + JSON.stringify(updated))
     } catch (error) {
       console.log(error)
       // alert("Error adding meal " + JSON.stringify(error, null, 2))
