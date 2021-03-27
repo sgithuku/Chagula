@@ -20,8 +20,8 @@ const DaysBlock = (props) => {
       marginBottom="1em"
       boxShadow="xl"
       color={colorMode === "dark" ? "gray.900" : "green.700"}
-      mr="6"
-      mt="6"
+      // mr="6"
+      // mt="6"
       // bgColor={colorMode === "dark" ? "gray.50" : "green.50"}
       // _hover={{ bgColor: "green.100" }}
       position="relative"

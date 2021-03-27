@@ -5,7 +5,6 @@ import {
   Container,
   Heading,
   Icon,
-  Image,
   Text,
   useColorMode,
 } from "@chakra-ui/react"
@@ -47,27 +46,18 @@ const Planner = () => {
         <Box w="100%">
           <Container centerContent>
             {meals.chosen < 1 ? (
-              <Box>
-                <Text size="lg" mb="3">
+              <Box w="md">
+                <Text size="lg" mb="3" textAlign="center">
                   <Icon aria-label="add-meal" as={ForkKnife} weight="fill" mr="1" />
-                  Head to the <b>Meal Planner</b> to add some meals or use the <b>Add new meal</b>{" "}
+                  Head to the <b>Meal List</b> to select some meals or use the <b>Add new meal</b>{" "}
                   button above.
                 </Text>
-                <Image src="/plate.jpg" alt="Meal Image" w="50%" borderRadius="xl" />
+                {/* <Image src="/plate.jpg" alt="Meal Image" w="50%" borderRadius="xl" /> */}
               </Box>
             ) : null}
             {meals.chosen > 0 && <Heading>Planner</Heading>}
 
             <DaysBlock />
-          </Container>
-          <Box d="flex" flexDir="row" justifyContent="center" flexWrap="wrap">
-            {meals.meals.map(
-              (meal, index) => meal.selected && <MealBlock meal={meal} key={index} />
-            )}
-          </Box>
-        </Box>
-        <Box>
-          {meals.chosen > 0 && (
             <Button
               colorScheme={colorMode === "dark" ? "gray.50" : "white"}
               p="3"
@@ -80,13 +70,14 @@ const Planner = () => {
                   //   data: { selected: false },
                   // })
                   await meals.meals.map((meal, index) => {
+                    console.log(meal, index)
                     return updateMealMutation({
-                      where: { id: index },
-                      data: { selected: false },
+                      where: { id: meal.id },
+                      data: { selected: false, day: null },
                     })
                   })
                   // await setQueryData(updated)
-                  await refetch()
+                  // await refetch({ force: true })
                   // alert("Success!" + JSON.stringify(updated))
                 } catch (error) {
                   console.log(error)
@@ -97,8 +88,14 @@ const Planner = () => {
               <Icon aria-label="add-meal" as={X} weight="fill" mr="1" />
               Reset All Meals
             </Button>
-          )}
+          </Container>
+          <Box d="flex" flexDir="row" justifyContent="center" flexWrap="wrap">
+            {meals.meals.map(
+              (meal, index) => meal.selected && <MealBlock meal={meal} key={index} />
+            )}
+          </Box>
         </Box>
+        <Box></Box>
       </Container>
     </Container>
   )
