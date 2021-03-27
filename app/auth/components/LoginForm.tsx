@@ -15,9 +15,15 @@ export const LoginForm = (props: LoginFormProps) => {
   const { colorMode } = useColorMode()
 
   return (
-    <Container centerContent justifyContent="center" maxW="100%">
+    <Container
+      centerContent
+      justifyContent="flex-start"
+      maxW="100%"
+      backgroundImage="/plate.jpg"
+      backgroundSize="cover"
+    >
       <Box
-        backgroundColor={colorMode === "dark" ? "rgba(0,0,0,0.7)" : "rgba(255,255,255,0.7)"}
+        backgroundColor={colorMode === "dark" ? "rgba(0,0,0,0.7)" : "#F0F7EE"}
         width={{ base: "100%", md: "md" }}
         borderRadius="lg"
         p={{ md: "6" }}
@@ -60,7 +66,7 @@ export const LoginForm = (props: LoginFormProps) => {
             </Link>
           </Box>
         </Form>
-        <Container width="xs" mt="6" centerContent>
+        <Container mt="6" p="0">
           <Text>Or if you don't already have an account</Text>
           <Button
             colorScheme={colorMode === "dark" ? dark.link : light.link}

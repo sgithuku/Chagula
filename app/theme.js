@@ -13,7 +13,7 @@ const theme = extendTheme({
   styles: {
     global: (props) => ({
       body: {
-        bg: mode(light.backgroundColor, dark.backgroundColor)(props),
+        bg: mode("#fefefe", dark.backgroundColor)(props),
         color: mode(light.text, dark.text)(props),
         fontFamily: fonts.sans_serif,
         fontSize: "lg",
@@ -47,7 +47,7 @@ const theme = extendTheme({
       //   color: "#171923 !important",
       // },
       ".darkrow": {
-        backgroundColor: mode("green.700", light.backgroundColor + "!important")(props),
+        backgroundColor: mode("green.700", "#F0F7EE !important")(props),
         color: mode(dark.text, light.text)(props),
         alignItems: "center",
         paddingX: "3",
@@ -57,7 +57,7 @@ const theme = extendTheme({
         flexDirection: "row",
       },
       ".row": {
-        backgroundColor: mode(light.backgroundColor + "!important", "green.700")(props),
+        backgroundColor: mode("#F0F7EE !important", "green.700")(props),
         color: mode(light.text, dark.text)(props),
         alignItems: "center",
         paddingX: "3",

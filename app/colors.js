@@ -11,7 +11,7 @@ export const dark = {
 
 export const light = {
   text: "gray.900",
-  backgroundColor: "#F0F7EE",
+  backgroundColor: "#fefefe",
   blockSubtitle: "#b6c59a",
   button: "gray.50",
   switches: "#20323e",

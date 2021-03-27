@@ -1,4 +1,13 @@
-import { Box, Container, Heading, List, ListIcon, ListItem, useColorMode } from "@chakra-ui/react"
+import {
+  Box,
+  Container,
+  Heading,
+  List,
+  ListIcon,
+  ListItem,
+  Tag,
+  useColorMode,
+} from "@chakra-ui/react"
 import Layout from "app/layouts/Layout"
 import updateMeal from "app/meals/mutations/updateMeal"
 import getMeals from "app/meals/queries/getMeals"
@@ -123,6 +132,10 @@ export const MealsList = (props) => {
               boxShadow="xl"
               bgColor={colorMode === "dark" ? "gray.900" : "green.700"}
               mr="3"
+              d="flex"
+              flexDir="row"
+              justifyContent="space-between"
+              alignItems="center"
             >
               <ListIcon
                 as={meal.selected ? ForkKnife : Plus}
@@ -145,9 +158,12 @@ export const MealsList = (props) => {
                   }
                 }}
               />
-              <Link href={`/meals/${meal.id}`}>
-                {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
-              </Link>
+              <Box d="flex" flexDir="row" justifyContent="space-between" flexGrow="1" pr="2">
+                <Link href={`/meals/${meal.id}`}>
+                  {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
+                </Link>
+                {meal.timesEaten > 0 ? <Tag variant="subtle">{meal.timesEaten}</Tag> : null}
+              </Box>
             </ListItem>
             /* https://www.digitalocean.com/community/tutorials/js-capitalizing-strings */
           ))}

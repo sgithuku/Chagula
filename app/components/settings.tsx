@@ -23,7 +23,7 @@ const Settings = () => {
       <Container centerContent maxW="100%">
         <Nav />
         <Box
-          backgroundColor={colorMode === "dark" ? "rgba(0, 0, 0, 0.7)" : "rgba(255, 255, 255, 0.7)"}
+          backgroundColor={colorMode === "dark" ? "rgba(0, 0, 0, 0.7)" : "#F0F7EE"}
           width={{ base: "100%", md: "md" }}
           borderRadius="lg"
           p="6"
@@ -45,7 +45,7 @@ const Settings = () => {
           </Link>
         </Box>
         <Box
-          backgroundColor={colorMode === "dark" ? "rgba(0, 0, 0, 0.7)" : "rgba(255, 255, 255, 0.7)"}
+          backgroundColor={colorMode === "dark" ? "rgba(0, 0, 0, 0.7)" : "#F0F7EE"}
           width={{ base: "100%", md: "md" }}
           borderRadius="lg"
           p="6"
@@ -85,7 +85,7 @@ const Settings = () => {
               _hover={{ bgColor: dark.switches }}
               variant="unstyled"
               mr="3"
-              color={colorMode === "dark" ? light.backgroundColor : dark.backgroundColor}
+              color={colorMode === "dark" ? "#F0F7EE" : dark.backgroundColor}
               borderRadius="md"
               icon={
                 <Icon
@@ -104,7 +104,7 @@ const Settings = () => {
               _hover={{ bgColor: dark.switches }}
               variant="unstyled"
               mr="3"
-              color={colorMode === "dark" ? light.backgroundColor : dark.backgroundColor}
+              color={colorMode === "dark" ? "#F0F7EE" : dark.backgroundColor}
               borderRadius="md"
               icon={
                 <Icon
@@ -119,7 +119,7 @@ const Settings = () => {
           </Link>
         </Box>
         <Box
-          backgroundColor={colorMode === "dark" ? "rgba(0, 0, 0, 0.7)" : "rgba(255, 255, 255, 0.7)"}
+          backgroundColor={colorMode === "dark" ? "rgba(0, 0, 0, 0.7)" : "#F0F7EE"}
           width={{ base: "100%", md: "md" }}
           borderRadius="lg"
           p="6"
