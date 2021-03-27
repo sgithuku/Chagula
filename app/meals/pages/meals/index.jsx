@@ -43,7 +43,7 @@ export const MealsList = (props) => {
 
     if (searchInput.value.length !== 0) {
       searchInput.value.split(",").map((filter) => {
-        filterDispatcher({ type: "ADD_FILTER", filter: filter })
+        filterDispatcher({ type: "ADD_FILTER", filter: filter.toLowerCase() })
       })
       searchInput.value = ""
     }
