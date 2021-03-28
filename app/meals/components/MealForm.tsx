@@ -150,13 +150,17 @@ const MealForm = ({ initialValues, onSubmit }: MealFormProps) => {
           <Box as="form" onSubmit={handleSubmit}>
             <InputControl name="name" label="Meal" />
             <SelectControl name="category" label="Select cuisine">
-              <option value="african">African</option>
+              <option value="african">African (general)</option>
+              <option value="asian">Asian (general)</option>
               <option value="baking">Baking</option>
+              <option value="chinese">Chinese</option>
               <option value="dessert">Dessert</option>
-              <option value="asian">East Asian</option>
-              <option value="european">European</option>
+              <option value="european">European (general)</option>
               <option value="indian">Indian</option>
+              <option value="japanese">Japanese</option>
               <option value="mexican">Mexican</option>
+              <option value="spanish">Spanish</option>
+              <option value="thai">Thai</option>
             </SelectControl>
             {values.category ? (
               <Image
