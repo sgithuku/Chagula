@@ -9,7 +9,6 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Image,
   Input,
   Progress,
   Select,
@@ -19,6 +18,7 @@ import createMeal from "app/meals/mutations/createMeal"
 import { useMutation } from "blitz"
 import React, { useState } from "react"
 import { Field, Form, useField, useForm } from "react-final-form"
+import Dropzone from "../../components/Dropzone"
 import validate from "./validate"
 type MealFormProps = {
   initialValues: any
@@ -158,14 +158,17 @@ const MealForm = ({ initialValues, onSubmit }: MealFormProps) => {
               <option value="indian">Indian</option>
               <option value="mexican">Mexican</option>
             </SelectControl>
-            {values.category ? (
+            {/* {values.category ? (
               <Image
                 src={`/${values.category}.jpg`}
                 alt={"meal picture"}
                 borderRadius="lg"
                 // maxH="200px"
               />
-            ) : null}
+            ) : null} */}
+            <Field name="image_url" label="Image" value="image_url[0].path">
+              {(props) => <Dropzone {...props.input} />}
+            </Field>
             <InputControl name="link" label="Link to recipe" />
             <TextareaControl name="recipe" label="Recipe / Notes" />
             <PercentComplete size="sm" my={2} isAnimated />

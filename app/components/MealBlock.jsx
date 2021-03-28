@@ -84,7 +84,7 @@ const MealBlock = (props) => {
         icon={<Icon aria-label="Meals" color={dark.text} as={X} weight="fill" />}
       />
       <Image
-        src={`/${meal.image_url ? meal.image_url : meal.category}.jpg`}
+        src={`/${meal.image_url ? meal.image_url : `${meal.category}.jpg`}`}
         alt={"meal picture"}
         borderTopRadius="lg"
       />
