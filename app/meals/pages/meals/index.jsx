@@ -11,7 +11,7 @@ import {
 import Layout from "app/layouts/Layout"
 import updateMeal from "app/meals/mutations/updateMeal"
 import getMeals from "app/meals/queries/getMeals"
-import { Link, useMutation, useQuery, useRouter } from "blitz"
+import { Link, useMutation, useQuery } from "blitz"
 import { ForkKnife, Plus } from "phosphor-react"
 import React, { Suspense, useEffect, useReducer, useState } from "react"
 import Filters from "../../../components/Filters"
@@ -23,11 +23,11 @@ const ITEMS_PER_PAGE = 30
 export const MealsList = (props) => {
   const { colorMode, toggleColorMode } = useColorMode()
 
-  const router = useRouter()
+  // const router = useRouter()
 
-  const [meals, { setQueryData }] = useQuery(getMeals, { where: {}, orderBy: { name: "asc" } }, {})
+  const [meals, { refetch }] = useQuery(getMeals, { where: {}, orderBy: { name: "asc" } }, {})
 
-  const [updateMealMutation] = useMutation(updateMeal)
+  // const [updateMealMutation] = useMutation(updateMeal)
 
   const [searchResults, setSearchResults] = useState(meals.meals)
   const filterReducer = (state = new Set([]), action) => {
@@ -116,9 +116,9 @@ export const MealsList = (props) => {
         <List d="flex" flexDir="row" flexWrap="wrap" justifyContent="center">
           {searchResults.map((meal, index) => (
             <ListItem
-              index={index}
+              // index={index}
               // key={`${meal.id}`}
-              key={`${meal.id}`}
+              key={meal.id}
               disabled={filters.size !== 0}
               paddingY="2"
               _hover={{ bgColor: "green.900", color: "white" }}
@@ -137,27 +137,8 @@ export const MealsList = (props) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <ListIcon
-                as={meal.selected ? ForkKnife : Plus}
-                verticalAlign="center"
-                color="green.500"
-                ml="3"
-                color={colorMode === "dark" ? "green.700" : "gray.50"}
-                onClick={async () => {
-                  try {
-                    const updated = await updateMealMutation({
-                      where: { id: meal.id },
-                      data: { selected: !meal.selected },
-                    })
-                    await setQueryData(updated)
-                    await refetch({ force: true })
-                    // alert("Success!" + JSON.stringify(updated))
-                  } catch (error) {
-                    console.log(error)
-                    // alert("Error adding meal " + JSON.stringify(error, null, 2))
-                  }
-                }}
-              />
+              <Box>{MealIcon(meal, refetch)}</Box>
+
               <Box d="flex" flexDir="row" justifyContent="space-between" flexGrow="1" pr="2">
                 <Link href={`/meals/${meal.id}`}>
                   {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
@@ -170,6 +151,36 @@ export const MealsList = (props) => {
         </List>
       </Box>
     </Container>
+  )
+}
+
+const MealIcon = (meal, refetch) => {
+  const [updateMealMutation] = useMutation(updateMeal)
+  const { colorMode } = useColorMode()
+
+  const setSelectMeal = async () => {
+    try {
+      await updateMealMutation({
+        where: { id: meal.id },
+        data: { selected: !meal.selected },
+      })
+      // await setQueryData(updated)
+      await refetch({ force: true })
+      alert("Success!" + JSON.stringify(updated))
+    } catch (error) {
+      console.log(error)
+      // alert("Error adding meal " + JSON.stringify(error, null, 2))
+    }
+  }
+  return (
+    <ListIcon
+      as={meal.selected ? ForkKnife : Plus}
+      verticalAlign="center"
+      color="green.500"
+      ml="3"
+      color={colorMode === "dark" ? "green.700" : "gray.50"}
+      onClick={setSelectMeal}
+    />
   )
 }
 
