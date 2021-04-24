@@ -238,7 +238,7 @@ const EatenSwitch = (meal, refetch) => {
       })
       await refetch({ force: true })
       // await setQueryData(updated)
-      alert("Success!" + JSON.stringify(updated))
+      // alert("Success!" + JSON.stringify(updated))
     } catch (error) {
       console.log(error)
       // alert("Error adding meal " + JSON.stringify(error, null, 2))

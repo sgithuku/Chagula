@@ -1,11 +1,11 @@
-import { BlitzPage, useRouterQuery, Link, useMutation } from "blitz"
-import Layout from "app/core/layouts/Layout"
-import { LabeledTextField } from "app/core/components/LabeledTextField"
-import { Form, FORM_ERROR } from "app/core/components/Form"
-import { ResetPassword } from "app/auth/validations"
+import { Box, Container, Heading, Text } from "@chakra-ui/react"
 import resetPassword from "app/auth/mutations/resetPassword"
-import { Container, Heading, Box, Text } from "@chakra-ui/react"
+import { ResetPassword } from "app/auth/validations"
 import Nav from "app/components/Nav"
+import { Form, FORM_ERROR } from "app/core/components/Form"
+import { LabeledTextField } from "app/core/components/LabeledTextField"
+import Layout from "app/core/layouts/Layout"
+import { BlitzPage, Link, Routes, useMutation, useRouterQuery } from "blitz"
 
 const ResetPasswordPage: BlitzPage = () => {
   const query = useRouterQuery()
@@ -21,7 +21,7 @@ const ResetPasswordPage: BlitzPage = () => {
         <Box>
           <Heading>Password Reset Successfully</Heading>
           <Text>
-            Go to the <Link href="/">homepage</Link>
+            Go to the <Link href={Routes.Home()}>homepage</Link>
           </Text>
         </Box>
       ) : (

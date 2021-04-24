@@ -95,7 +95,6 @@ const Planner = () => {
             )}
           </Box>
         </Box>
-        <Box></Box>
       </Container>
     </Container>
   )

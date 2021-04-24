@@ -2,30 +2,32 @@ import {
   Box,
   Container,
   Heading,
+  IconButton,
   List,
-  ListIcon,
   ListItem,
+  Spinner,
   Tag,
   useColorMode,
 } from "@chakra-ui/react"
 import Layout from "app/layouts/Layout"
 import updateMeal from "app/meals/mutations/updateMeal"
 import getMeals from "app/meals/queries/getMeals"
-import { Link, useMutation, useQuery } from "blitz"
+import { invalidateQuery, Link, useMutation, useQuery } from "blitz"
 import { ForkKnife, Plus } from "phosphor-react"
 import React, { Suspense, useEffect, useReducer, useState } from "react"
 import Filters from "../../../components/Filters"
 import Nav from "../../../components/Nav"
 import SearchBar from "../../../components/SearchBar"
 
-const ITEMS_PER_PAGE = 30
+// const ITEMS_PER_PAGE = 30
 
 export const MealsList = (props) => {
   const { colorMode, toggleColorMode } = useColorMode()
 
-  // const router = useRouter()
-
-  const [meals, { refetch }] = useQuery(getMeals, { where: {}, orderBy: { name: "asc" } }, {})
+  const [meals, { refetch }] = useQuery(getMeals, {
+    where: {},
+    orderBy: { name: "asc" },
+  })
 
   // const [updateMealMutation] = useMutation(updateMeal)
 
@@ -64,7 +66,7 @@ export const MealsList = (props) => {
         [...meals.meals].filter((document) => {
           let flag = true
           ;[...filters].map((filter) => {
-            console.log("this is filter", filter)
+            // console.log("this is filter", filter)
             if (!document.name.includes(filter)) flag = false
           })
           return flag
@@ -121,6 +123,7 @@ export const MealsList = (props) => {
               key={meal.id}
               disabled={filters.size !== 0}
               paddingY="2"
+              paddingX="2"
               _hover={{ bgColor: "green.900", color: "white" }}
               justifyContent="center"
               width="sm"
@@ -137,14 +140,13 @@ export const MealsList = (props) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Box>{MealIcon(meal, refetch)}</Box>
-
               <Box d="flex" flexDir="row" justifyContent="space-between" flexGrow="1" pr="2">
                 <Link href={`/meals/${meal.id}`}>
                   {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
                 {meal.timesEaten > 0 ? <Tag variant="subtle">{meal.timesEaten}</Tag> : null}
               </Box>
+              <Box>{MealIcon(meal, refetch)}</Box>
             </ListItem>
             /* https://www.digitalocean.com/community/tutorials/js-capitalizing-strings */
           ))}
@@ -156,7 +158,7 @@ export const MealsList = (props) => {
 
 const MealIcon = (meal, refetch) => {
   const [updateMealMutation] = useMutation(updateMeal)
-  const { colorMode } = useColorMode()
+  // const { colorMode } = useColorMode()
 
   const setSelectMeal = async () => {
     try {
@@ -164,23 +166,31 @@ const MealIcon = (meal, refetch) => {
         where: { id: meal.id },
         data: { selected: !meal.selected },
       })
+      await invalidateQuery(getMeal)
       // await setQueryData(updated)
-      await refetch({ force: true })
-      alert("Success!" + JSON.stringify(updated))
+      refetch()
+      // alert("Success!" + JSON.stringify(updated))
     } catch (error) {
       console.log(error)
       // alert("Error adding meal " + JSON.stringify(error, null, 2))
     }
   }
   return (
-    <ListIcon
-      as={meal.selected ? ForkKnife : Plus}
-      verticalAlign="center"
-      color="green.500"
-      ml="3"
-      color={colorMode === "dark" ? "green.700" : "gray.50"}
+    <IconButton
+      color={"white"}
       onClick={setSelectMeal}
+      variant="ghost"
+      icon={meal.selected ? <ForkKnife /> : <Plus />}
+      key={meal.id + "icon"}
     />
+    // <FormControl>
+    //   <Switch
+    //     isChecked={meal.selected}
+    //     id="selected"
+    //     onChange={setSelectMeal}
+    //     // colorScheme={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
+    //   />
+    // </FormControl>
   )
 }
 
@@ -189,7 +199,7 @@ const MealsPage = () => {
     <Container centerContent w="100%" maxW="100%">
       <Nav />
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Spinner size="md" />}>
         <MealsList />
       </Suspense>
     </Container>

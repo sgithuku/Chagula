@@ -15,7 +15,6 @@ import theme from "../theme"
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
   const router = useRouter()
-  const { reset } = useQueryErrorResetBoundary()
 
   return (
     <ChakraProvider theme={theme}>
@@ -23,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ErrorBoundary
         FallbackComponent={RootErrorFallback}
         resetKeys={[router.asPath]}
-        onReset={reset}
+        onReset={useQueryErrorResetBoundary().reset}
       >
         {getLayout(<Component {...pageProps} />)}
       </ErrorBoundary>
