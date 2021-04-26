@@ -3,7 +3,7 @@ import { Icon, Input, InputGroup, InputLeftElement } from "@chakra-ui/react"
 import { MagnifyingGlass } from "phosphor-react"
 import React from "react"
 
-const SearchBar = ({ onSearch, customColor }) => {
+const SearchBar = ({ searchFunction }) => {
   return (
     <InputGroup width="100%" maxW="md">
       <InputLeftElement pointerEvents="none" children={<Icon as={MagnifyingGlass} />} />
@@ -19,7 +19,8 @@ const SearchBar = ({ onSearch, customColor }) => {
         // colorScheme="blackAlpha"
         // borderColor="green.500"
         onKeyPress={(e) => {
-          e.key === "Enter" && onSearch()
+          // console.log(e)
+          e.key === "Enter" && searchFunction(e.target.value)
         }}
         placeholder="Search"
         mb="3"

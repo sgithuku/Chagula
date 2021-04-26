@@ -32,6 +32,14 @@ export default async function getMeals(
   })
   // FIXME: That is heinous.
 
+  // const filtered = await db.meal.findMany({
+  //   where: {
+  //     name: {
+  //       contains:
+  //      },
+  //   },
+  // })
+
   const hasMore = typeof take === "number" ? skip + take < count : false
   const nextPage = hasMore ? { take, skip: skip + take! } : null
 

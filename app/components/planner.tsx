@@ -22,7 +22,7 @@ const Planner = () => {
   const [updateMealMutation] = useMutation(updateMeal)
   const { colorMode } = useColorMode()
   const router = useRouter()
-  console.log("this is the router: ", router)
+  // console.log("this is the router: ", router)
 
   return (
     <Container centerContent maxW="100%">

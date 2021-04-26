@@ -7,75 +7,42 @@ import {
   ListItem,
   Spinner,
   Tag,
+  Text,
   useColorMode,
 } from "@chakra-ui/react"
+import Nav from "app/components/Nav"
 import Layout from "app/layouts/Layout"
 import updateMeal from "app/meals/mutations/updateMeal"
 import getMeals from "app/meals/queries/getMeals"
-import { invalidateQuery, Link, useMutation, useQuery } from "blitz"
+import { Link, useMutation, useQuery } from "blitz"
 import { ForkKnife, Plus } from "phosphor-react"
-import React, { Suspense, useEffect, useReducer, useState } from "react"
-import Filters from "../../../components/Filters"
-import Nav from "../../../components/Nav"
-import SearchBar from "../../../components/SearchBar"
-
+import React, { Suspense, useState } from "react"
 // const ITEMS_PER_PAGE = 30
 
 export const MealsList = (props) => {
-  const { colorMode, toggleColorMode } = useColorMode()
+  const { colorMode } = useColorMode()
 
-  const [meals, { refetch }] = useQuery(getMeals, {
-    where: {},
+  const [meals, { refetch, isLoading, error }] = useQuery(getMeals, {
+    where: {
+      name: {
+        contains: "",
+      },
+    },
     orderBy: { name: "asc" },
   })
 
-  // const [updateMealMutation] = useMutation(updateMeal)
+  const [search, setSearch] = useState("")
+  // FIXME: This needs its own hook to work for some reason. useFetch may fix this but I don't understand react-query well enough yet.
+  // const searchAction = (value) => {
+  //   // console.log(value, search, isLoading)
+  //   // try {
+  //   //   await setSearch(value)
+  //   //   // await refetch({ force: true })
+  //   // } catch (err) {
+  //   //   console.log(err)
+  //   // }
 
-  const [searchResults, setSearchResults] = useState(meals.meals)
-  const filterReducer = (state = new Set([]), action) => {
-    switch (action.type) {
-      case "ADD_FILTER":
-        return new Set([...state, action.filter.trim()])
-      case "REMOVE_FILTER":
-        return new Set([...state].filter((filter) => filter !== action.filter))
-      case "RESET_FILTER":
-        return new Set([])
-      case "LIST_FILTERS":
-        return new Set(...state)
-      default:
-        return state
-    }
-  }
-
-  const [filters, filterDispatcher] = useReducer(filterReducer, new Set([]))
-
-  const searchAction = () => {
-    const searchInput = document.getElementById("search-input")
-
-    if (searchInput.value.length !== 0) {
-      searchInput.value.split(",").map((filter) => {
-        filterDispatcher({ type: "ADD_FILTER", filter: filter.toLowerCase() })
-      })
-      searchInput.value = ""
-    }
-  }
-
-  useEffect(() => {
-    if (filters.size !== 0) {
-      setSearchResults(
-        [...meals.meals].filter((document) => {
-          let flag = true
-          ;[...filters].map((filter) => {
-            // console.log("this is filter", filter)
-            if (!document.name.includes(filter)) flag = false
-          })
-          return flag
-        })
-      )
-    } else {
-      setSearchResults(meals.meals)
-    }
-  }, [filters])
+  // }
 
   return (
     <Container
@@ -91,37 +58,19 @@ export const MealsList = (props) => {
       <Heading pl="3" size="lg" mb="3">
         Your Meals
       </Heading>
-      <SearchBar onSearch={searchAction} customColor={"gray.50"} />
-      {filters.size !== 0 && (
-        <Filters
-          filters={filters}
-          filterDispatcher={filterDispatcher}
-          // customBG={colorMode === "dark" ? "blue.700" : "blue.700"}
-          customColor={"green.500"}
-        />
-      )}
-      {/* <Box d="flex" justifyContent="space-between" mt="3" mb="3">
-            {cuisines.map((food, index) => (
-              <Button
-                // color={colorMode === "dark" ? "gray.50" : "gray.700"}
-                colorScheme="gray.50"
-                variant="ghost"
-                p="3"
-                variant="outline"
-                size="sm"
-              >
-                {food.replace(/^\w/, (c) => c.toUpperCase())}
-              </Button>
-            ))}
-          </Box> */}
+      {/* <SearchBar searchFunction={searchAction} /> */}
+      <Text>
+        <strong>{search}</strong>
+      </Text>
+
       <Box w={"100%"}>
         <List d="flex" flexDir="row" flexWrap="wrap" justifyContent="center">
-          {searchResults.map((meal, index) => (
+          {meals?.meals.map((meal, index) => (
             <ListItem
               // index={index}
               // key={`${meal.id}`}
               key={meal.id}
-              disabled={filters.size !== 0}
+              // disabled={filters.size !== 0}
               paddingY="2"
               paddingX="2"
               _hover={{ bgColor: "green.900", color: "white" }}
@@ -144,7 +93,11 @@ export const MealsList = (props) => {
                 <Link href={`/meals/${meal.id}`}>
                   {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
-                {meal.timesEaten > 0 ? <Tag variant="subtle">{meal.timesEaten}</Tag> : null}
+                {meal.timesEaten > 0 ? (
+                  <Tag variant="subtle" size="lg">
+                    {meal.timesEaten}
+                  </Tag>
+                ) : null}
               </Box>
               <Box>{MealIcon(meal, refetch)}</Box>
             </ListItem>
@@ -157,8 +110,8 @@ export const MealsList = (props) => {
 }
 
 const MealIcon = (meal, refetch) => {
-  const [updateMealMutation] = useMutation(updateMeal)
-  // const { colorMode } = useColorMode()
+  const [updateMealMutation] = useMutation(updateMeal, { useErrorBoundary: true })
+  const { colorMode } = useColorMode()
 
   const setSelectMeal = async () => {
     try {
@@ -166,10 +119,7 @@ const MealIcon = (meal, refetch) => {
         where: { id: meal.id },
         data: { selected: !meal.selected },
       })
-      await invalidateQuery(getMeal)
-      // await setQueryData(updated)
-      refetch()
-      // alert("Success!" + JSON.stringify(updated))
+      await refetch({ force: true })
     } catch (error) {
       console.log(error)
       // alert("Error adding meal " + JSON.stringify(error, null, 2))
@@ -177,20 +127,13 @@ const MealIcon = (meal, refetch) => {
   }
   return (
     <IconButton
-      color={"white"}
+      colorScheme={colorMode === "dark" ? "white" : "blackAlpha"}
       onClick={setSelectMeal}
-      variant="ghost"
+      variant={colorMode === "dark" ? "outline" : "solid"}
       icon={meal.selected ? <ForkKnife /> : <Plus />}
       key={meal.id + "icon"}
+      size="sm"
     />
-    // <FormControl>
-    //   <Switch
-    //     isChecked={meal.selected}
-    //     id="selected"
-    //     onChange={setSelectMeal}
-    //     // colorScheme={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
-    //   />
-    // </FormControl>
   )
 }
 
