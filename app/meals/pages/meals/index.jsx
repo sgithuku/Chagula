@@ -1,26 +1,18 @@
-import {
-  Box,
-  Container,
-  Heading,
-  IconButton,
-  List,
-  ListItem,
-  Spinner,
-  Tag,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react"
+import { Box, Container, Heading, List, Spinner, useColorMode } from "@chakra-ui/react"
+import MealListitem from "app/components/Meal_Listitem"
 import Nav from "app/components/Nav"
 import Layout from "app/layouts/Layout"
-import updateMeal from "app/meals/mutations/updateMeal"
 import getMeals from "app/meals/queries/getMeals"
-import { Link, useMutation, useQuery } from "blitz"
-import { ForkKnife, Plus } from "phosphor-react"
+import { useQuery } from "blitz"
 import React, { Suspense, useState } from "react"
 // const ITEMS_PER_PAGE = 30
 
 export const MealsList = (props) => {
   const { colorMode } = useColorMode()
+  // const [withRecipes, setWithRecipes] = useState(true)
+  // useEffect(() => {
+  //   console.log("withRecipes changed")
+  // }, [withRecipes])
 
   const [meals, { refetch, isLoading, error }] = useQuery(getMeals, {
     where: {
@@ -30,6 +22,18 @@ export const MealsList = (props) => {
     },
     orderBy: { name: "asc" },
   })
+  console.log("render")
+  // const flipRecipes = async () => {
+  //   try {
+  //     await setWithRecipes(!withRecipes)
+  //     await refetch({ force: true })
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
+  // console.log(meals)
+
+  // console.log(refetch)
 
   const [search, setSearch] = useState("")
   // FIXME: This needs its own hook to work for some reason. useFetch may fix this but I don't understand react-query well enough yet.
@@ -59,81 +63,26 @@ export const MealsList = (props) => {
         Your Meals
       </Heading>
       {/* <SearchBar searchFunction={searchAction} /> */}
-      <Text>
+      {/* <Text>
         <strong>{search}</strong>
-      </Text>
+      </Text> */}
+      {/* <IconButton
+        aria-label="Items with recipes"
+        icon={withRecipes ? <Notepad /> : <NoteBlank />}
+        onClick={setWithRecipes((prev) => !prev)}
+        size="lg"
+      /> */}
 
       <Box w={"100%"}>
         <List d="flex" flexDir="row" flexWrap="wrap" justifyContent="center">
-          {meals?.meals.map((meal, index) => (
-            <ListItem
-              // index={index}
-              // key={`${meal.id}`}
-              key={meal.id}
-              // disabled={filters.size !== 0}
-              paddingY="2"
-              paddingX="2"
-              _hover={{ bgColor: "green.900", color: "white" }}
-              justifyContent="center"
-              width="sm"
-              borderWidth="1px"
-              borderRadius="lg"
-              borderColor={colorMode === "dark" ? "gray.900" : "green.700"}
-              color="white"
-              marginBottom="1em"
-              boxShadow="xl"
-              bgColor={colorMode === "dark" ? "gray.900" : "green.700"}
-              mr="3"
-              d="flex"
-              flexDir="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Box d="flex" flexDir="row" justifyContent="space-between" flexGrow="1" pr="2">
-                <Link href={`/meals/${meal.id}`}>
-                  {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
-                </Link>
-                {meal.timesEaten > 0 ? (
-                  <Tag variant="subtle" size="lg">
-                    {meal.timesEaten}
-                  </Tag>
-                ) : null}
-              </Box>
-              <Box>{MealIcon(meal, refetch)}</Box>
-            </ListItem>
-            /* https://www.digitalocean.com/community/tutorials/js-capitalizing-strings */
-          ))}
+          {meals?.meals
+            .filter((meal) => {
+              return meal.recipe !== null
+            })
+            .map((meal, index) => MealListitem(meal, refetch))}
         </List>
       </Box>
     </Container>
-  )
-}
-
-const MealIcon = (meal, refetch) => {
-  const [updateMealMutation] = useMutation(updateMeal, { useErrorBoundary: true })
-  const { colorMode } = useColorMode()
-
-  const setSelectMeal = async () => {
-    try {
-      await updateMealMutation({
-        where: { id: meal.id },
-        data: { selected: !meal.selected },
-      })
-      await refetch({ force: true })
-    } catch (error) {
-      console.log(error)
-      // alert("Error adding meal " + JSON.stringify(error, null, 2))
-    }
-  }
-  return (
-    <IconButton
-      colorScheme={colorMode === "dark" ? "white" : "blackAlpha"}
-      onClick={setSelectMeal}
-      variant={colorMode === "dark" ? "outline" : "solid"}
-      icon={meal.selected ? <ForkKnife /> : <Plus />}
-      key={meal.id + "icon"}
-      size="sm"
-    />
   )
 }
 

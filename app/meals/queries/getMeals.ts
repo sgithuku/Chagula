@@ -30,6 +30,13 @@ export default async function getMeals(
       },
     },
   })
+  const hasRecipe = await db.meal.findMany({
+    where: {
+      recipe: {
+        not: null,
+      },
+    },
+  })
   // FIXME: That is heinous.
 
   // const filtered = await db.meal.findMany({
@@ -50,5 +57,6 @@ export default async function getMeals(
     count,
     chosen,
     hasDays,
+    hasRecipe,
   }
 }

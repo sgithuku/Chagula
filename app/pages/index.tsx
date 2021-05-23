@@ -21,6 +21,7 @@ const Home: BlitzPage = () => {
     )
   }
 }
+console.log("render")
 
 Home.suppressFirstRenderFlicker = true
 Home.getLayout = (page) => (
