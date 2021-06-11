@@ -24,10 +24,7 @@ export * from "@testing-library/react"
 //   router: { pathname: '/my-custom-pathname' },
 // });
 // --------------------------------------------------
-export function render(
-  ui: RenderUI,
-  { wrapper, router, dehydratedState, ...options }: RenderOptions = {}
-) {
+export function render(ui: RenderUI, { wrapper, router, dehydratedState, ...options }: RenderOptions = {}) {
   if (!wrapper) {
     // Add a default context wrapper if one isn't supplied from the test
     wrapper = ({ children }) => (
@@ -54,7 +51,7 @@ export function render(
 // --------------------------------------------------
 export function renderHook(
   hook: RenderHook,
-  { wrapper, router, dehydratedState, ...options }: RenderHookOptions = {}
+  { wrapper, router, dehydratedState,...options }: RenderHookOptions = {}
 ) {
   if (!wrapper) {
     // Add a default context wrapper if one isn't supplied from the test
@@ -69,7 +66,7 @@ export function renderHook(
   return defaultRenderHook(hook, { wrapper, ...options })
 }
 
-export const mockRouter: BlitzRouter = {
+export const mockRouter: BlitzRouter =     {
   basePath: "",
   pathname: "/",
   route: "/",
@@ -95,11 +92,8 @@ export const mockRouter: BlitzRouter = {
 
 type DefaultParams = Parameters<typeof defaultRender>
 type RenderUI = DefaultParams[0]
-type RenderOptions = DefaultParams[1] & { router?: Partial<BlitzRouter>; dehydratedState?: unknown }
+type RenderOptions = DefaultParams[1] & { router?: Partial<BlitzRouter>, dehydratedState?: unknown }
 
 type DefaultHookParams = Parameters<typeof defaultRenderHook>
 type RenderHook = DefaultHookParams[0]
-type RenderHookOptions = DefaultHookParams[1] & {
-  router?: Partial<BlitzRouter>
-  dehydratedState?: unknown
-}
+type RenderHookOptions = DefaultHookParams[1] & { router?: Partial<BlitzRouter>, dehydratedState?: unknown }

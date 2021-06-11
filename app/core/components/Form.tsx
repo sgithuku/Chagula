@@ -1,7 +1,7 @@
 import { Button, useColorMode } from "@chakra-ui/react"
 import { PropsWithoutRef, ReactNode } from "react"
 import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form"
-import * as z from "zod"
+import z from "zod"
 import { dark, light } from "../../colors"
 export { FORM_ERROR } from "final-form"
 export interface FormProps<S extends z.ZodType<any, any>>

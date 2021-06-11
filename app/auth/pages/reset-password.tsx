@@ -1,37 +1,33 @@
-import { Box, Container, Heading, Text } from "@chakra-ui/react"
-import resetPassword from "app/auth/mutations/resetPassword"
-import { ResetPassword } from "app/auth/validations"
-import Nav from "app/components/Nav"
-import { Form, FORM_ERROR } from "app/core/components/Form"
-import { LabeledTextField } from "app/core/components/LabeledTextField"
+import { BlitzPage, useRouterQuery, Link, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
-import { BlitzPage, Link, Routes, useMutation, useRouterQuery } from "blitz"
+import { LabeledTextField } from "app/core/components/LabeledTextField"
+import { Form, FORM_ERROR } from "app/core/components/Form"
+import { ResetPassword } from "app/auth/validations"
+import resetPassword from "app/auth/mutations/resetPassword"
 
 const ResetPasswordPage: BlitzPage = () => {
   const query = useRouterQuery()
   const [resetPasswordMutation, { isSuccess }] = useMutation(resetPassword)
 
   return (
-    <Container centerContent maxW="100%">
-      <Nav />
-
-      <Heading>Set a New Password</Heading>
+    <div>
+      <h1>Set a New Password</h1>
 
       {isSuccess ? (
-        <Box>
-          <Heading>Password Reset Successfully</Heading>
-          <Text>
+        <div>
+          <h2>Password Reset Successfully</h2>
+          <p>
             Go to the <Link href={Routes.Home()}>homepage</Link>
-          </Text>
-        </Box>
+          </p>
+        </div>
       ) : (
         <Form
           submitText="Reset Password"
-          schema={ResetPassword.omit({ token: true })}
-          initialValues={{ password: "", passwordConfirmation: "" }}
+          schema={ResetPassword}
+          initialValues={{ password: "", passwordConfirmation: "", token: query.token as string }}
           onSubmit={async (values) => {
             try {
-              await resetPasswordMutation({ ...values, token: query.token as string })
+              await resetPasswordMutation(values)
             } catch (error) {
               if (error.name === "ResetPasswordError") {
                 return {
@@ -53,7 +49,7 @@ const ResetPasswordPage: BlitzPage = () => {
           />
         </Form>
       )}
-    </Container>
+    </div>
   )
 }
 

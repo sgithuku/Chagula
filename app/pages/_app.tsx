@@ -11,6 +11,7 @@ import {
 } from "blitz"
 import { ErrorBoundary } from "react-error-boundary"
 import theme from "../theme"
+import { Suspense } from "react"
 
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
@@ -18,14 +19,16 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <ChakraProvider theme={theme}>
-      <CSSReset />
-      <ErrorBoundary
-        FallbackComponent={RootErrorFallback}
-        resetKeys={[router.asPath]}
-        onReset={useQueryErrorResetBoundary().reset}
-      >
-        {getLayout(<Component {...pageProps} />)}
-      </ErrorBoundary>
+      <Suspense fallback="Loading...">
+        <CSSReset />
+        <ErrorBoundary
+          FallbackComponent={RootErrorFallback}
+          resetKeys={[router.asPath]}
+          onReset={useQueryErrorResetBoundary().reset}
+        >
+          {getLayout(<Component {...pageProps} />)}
+        </ErrorBoundary>
+      </Suspense>
     </ChakraProvider>
   )
 }

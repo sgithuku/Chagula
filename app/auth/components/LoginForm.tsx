@@ -3,7 +3,7 @@ import login from "app/auth/mutations/login"
 import { Login } from "app/auth/validations"
 import { Form, FORM_ERROR } from "app/core/components/Form"
 import { LabeledTextField } from "app/core/components/LabeledTextField"
-import { AuthenticationError, Link, useMutation } from "blitz"
+import { AuthenticationError, Link, useMutation, Routes } from "blitz"
 import { dark, light } from "../../colors"
 
 type LoginFormProps = {
@@ -61,7 +61,7 @@ export const LoginForm = (props: LoginFormProps) => {
             type="password"
           />
           <Box>
-            <Link href="/forgot-password">
+            <Link href={Routes.ForgotPasswordPage()}>
               <a>Forgot your password?</a>
             </Link>
           </Box>
@@ -73,7 +73,7 @@ export const LoginForm = (props: LoginFormProps) => {
             variant="outline"
             mr={["3", "3", "6"]}
           >
-            <Link href="/signup">Sign Up</Link>
+            <Link href={Routes.SignupPage()}>Sign Up</Link>
           </Button>
         </Container>
       </Box>
