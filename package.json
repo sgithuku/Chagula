@@ -1,5 +1,5 @@
 {
-  "name": "Chagula",
+  "name": "chagula",
   "version": "1.0.0",
   "scripts": {
     "dev": "blitz dev",
@@ -9,7 +9,9 @@
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "start:production": "blitz start --port $PORT",
+    "heroku-postbuild": "blitz prisma migrate deploy --preview-feature && blitz build"
   },
   "prisma": {
     "schema": "db/schema.prisma"
@@ -24,6 +26,13 @@
     ]
   },
   "dependencies": {
+    "@chakra-ui/react": "1.6.1",
+    "@emotion/react": "11.4.0",
+    "@emotion/styled": "11.3.0",
+    "chakra-ui-markdown-renderer": "1.1.0",
+    "framer-motion": "4.1.17",
+    "phosphor-react": "1.2.1",
+    "react-markdown": "5.0.3",
     "@prisma/client": "~2.20",
     "@types/react": "17.0.6",
     "@types/preview-email": "2.0.0",
@@ -45,5 +54,7 @@
     "react-final-form": "6.5.3"
   },
   "private": true,
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "4.2.0"
+  }
 }

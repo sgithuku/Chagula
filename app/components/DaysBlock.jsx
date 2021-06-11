@@ -225,32 +225,40 @@ const DaysBlock = (props) => {
 export default DaysBlock
 
 const EatenSwitch = (meal, refetch) => {
-  const [updateMealMutation] = useMutation(updateMeal)
+  const [updateMealMutation, { setQueryData }] = useMutation(updateMeal)
 
-  const setEatenAlready = async () => {
-    try {
-      await updateMealMutation({
-        where: { id: meal.id },
-        data: {
-          already_eaten: !meal.already_eaten,
-          timesEaten: already_eaten ? meal.timesEaten + 1 : meal.timesEaten,
-        },
-      })
-      await refetch({ force: true })
-      // await setQueryData(updated)
-      // alert("Success!" + JSON.stringify(updated))
-    } catch (error) {
-      console.log(error)
-      // alert("Error adding meal " + JSON.stringify(error, null, 2))
-    }
-  }
+  // const setEatenAlready = async () => {
+  //   try {
+  //     const updated = await updateMealMutation({
+  //       where: { id: meal.id },
+  //       data: {
+  //         already_eaten: !meal.already_eaten,
+  //         timesEaten: already_eaten ? meal.timesEaten + 1 : meal.timesEaten,
+  //       },
+  //     })
+  //     await setQueryData(updated)
+  //     await refetch({ force: true })
+  //     // alert("Success!" + JSON.stringify(updated))
+  //   } catch (error) {
+  //     console.log(error)
+  //     // alert("Error adding meal " + JSON.stringify(error, null, 2))
+  //   }
+  // }
 
   return (
     <FormControl>
       <Switch
         isChecked={meal.already_eaten}
         id="already_eaten"
-        onChange={setEatenAlready}
+        onChange={() =>
+          updateMealMutation({
+            where: { id: meal.id },
+            data: {
+              already_eaten: !meal.already_eaten,
+              timesEaten: already_eaten ? meal.timesEaten + 1 : meal.timesEaten,
+            },
+          })
+        }
         // colorScheme={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
       />
     </FormControl>
