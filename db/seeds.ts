@@ -109,7 +109,7 @@ const seedDays = async () => {
   for (let i = 0; i < days.length; i++) {
     await db.day.create({
       data: {
-        name: `${days[i].name}`,
+        name: `${days[i]?.name}`,
       },
     })
   }
@@ -119,8 +119,8 @@ const seedChoices = async () => {
   for (let i = 0; i < choices.length; i++) {
     await db.meal.create({
       data: {
-        name: `${choices[i].name}`,
-        category: `${choices[i].category}`,
+        name: `${choices[i]?.name}`,
+        category: `${choices[i]?.category}`,
       },
     })
   }
