@@ -9,7 +9,9 @@
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "start:production": "blitz start --port $PORT",
+    "heroku-postbuild": "blitz prisma migrate deploy --preview-feature && blitz build"
   },
   "prisma": {
     "schema": "db/schema.prisma"
