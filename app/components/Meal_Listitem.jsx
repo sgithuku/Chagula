@@ -9,10 +9,7 @@ const MealListitem = (meal, refetch) => {
 
   return (
     <ListItem
-      // index={index}
-      // key={`${meal.id}`}
       key={meal.id}
-      // disabled={filters.size !== 0}
       paddingY="2"
       paddingX="2"
       _hover={{ bgColor: "green.900", color: "white" }}
@@ -30,7 +27,6 @@ const MealListitem = (meal, refetch) => {
       flexDir="row"
       alignItems="center"
     >
-      {/* <Text>Test</Text> */}
       <Box d="flex" flexDir="row" justifyContent="space-between" flexGrow="1" pr="2">
         <Link href={`/meals/${meal.id}`}>
           {meal.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}

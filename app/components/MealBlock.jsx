@@ -14,7 +14,8 @@ import { dark, light } from "app/colors"
 import getDays from "app/days/queries/getDays"
 import updateMeal from "app/meals/mutations/updateMeal"
 import getMeal from "app/meals/queries/getMeal"
-import { useMutation, useQuery, useRouter } from "blitz"
+import getMeals from "app/meals/queries/getMeals"
+import { useMutation, useQuery, useRouter, invalidateQuery } from "blitz"
 import { X } from "phosphor-react"
 
 const MealBlock = (props) => {
@@ -30,14 +31,15 @@ const MealBlock = (props) => {
   const setDay = async (value) => {
     try {
       // console.log(event)
-      await updateMealMutation({
+      const updated = await updateMealMutation({
         where: { id: meal.id },
         data: { day: parseFloat(event.target.value) },
       })
-      // await setQueryData(updated)
+      await setQueryData(updated)
       await refetch({ force: true })
+      await invalidateQuery(getMeals)
       // alert("Success!" + JSON.stringify(updated))
-      console.log(meal)
+      console.log(meal, days)
     } catch (error) {
       console.log(error)
       // alert("Error adding meal " + JSON.stringify(error, null, 2))
@@ -60,19 +62,21 @@ const MealBlock = (props) => {
       position="relative"
     >
       <IconButton
-        aria-label="Search database"
+        aria-label="Select meal"
         bgColor={colorMode === "dark" ? "green.700" : "green.500"}
         _hover={{ bgColor: "orange.500" }}
         borderRadius="full"
         position="absolute"
         onClick={async () => {
           try {
-            const updated = await updateMealMutation({
+            await updateMealMutation({
               where: { id: meal.id },
               data: { selected: !meal.selected },
             })
-            await setQueryData(updated)
+            // await setQueryData(updated)
             await refetch({ force: true })
+            await invalidateQuery(getMeals)
+
             // alert("Success!" + JSON.stringify(updated))
           } catch (error) {
             console.log(error)
@@ -120,7 +124,11 @@ const MealBlock = (props) => {
                 defaultValue={meal.day ? days.days[meal.day].name : "Select day"}
               >
                 {days.days.map((day, index) => (
-                  <option value={day.id} key={day.id + index}>
+                  <option
+                    value={day.id}
+                    key={day.id + index}
+                    // defaultValue={days.days[meal.day]?.name}
+                  >
                     {day.name}
                   </option>
                 ))}

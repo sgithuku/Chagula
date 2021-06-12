@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "blitz"
 
 const DaysBlock = (props) => {
   const { colorMode } = useColorMode()
-  const [meals, { setQueryData, refetch }] = useQuery(getMeals, { where: {} }, {})
+  const [meals, { refetch, setQueryData }] = useQuery(getMeals, { where: {} }, {})
   // console.log(meals.hasDays)
   const long_date = new Date()
   const date = long_date.getDay()
@@ -53,12 +53,11 @@ const DaysBlock = (props) => {
                 <Link
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
-                  key={day.day + index}
                   fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
-                <Box>{EatenSwitch(day, refetch)}</Box>
+                <Box>{EatenSwitch(day, refetch, setQueryData)}</Box>
               </Box>
             ) : null
           )}
@@ -86,7 +85,7 @@ const DaysBlock = (props) => {
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
-                <Box>{EatenSwitch(day, refetch)}</Box>
+                <Box>{EatenSwitch(day, refetch, setQueryData)}</Box>
               </Box>
             ) : null
           )}
@@ -105,16 +104,16 @@ const DaysBlock = (props) => {
                 alignItems="center"
                 justifyContent="space-between"
                 flexGrow="1"
+                key={day.day + index}
               >
                 <Link
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
-                  key={day.day + index}
                   fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
-                <Box>{EatenSwitch(day, refetch)}</Box>
+                <Box>{EatenSwitch(day, refetch, setQueryData)}</Box>
               </Box>
             ) : null
           )}
@@ -142,7 +141,7 @@ const DaysBlock = (props) => {
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
-                <Box>{EatenSwitch(day, refetch)}</Box>
+                <Box>{EatenSwitch(day, refetch, setQueryData)}</Box>
               </Box>
             ) : null
           )}
@@ -170,7 +169,7 @@ const DaysBlock = (props) => {
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
-                <Box>{EatenSwitch(day, refetch)}</Box>
+                <Box>{EatenSwitch(day, refetch, setQueryData)}</Box>
               </Box>
             ) : null
           )}
@@ -183,16 +182,21 @@ const DaysBlock = (props) => {
         <Box d="flex" flexDir="column" pl="3" justifyContent="space-between" flexGrow="1">
           {meals.hasDays.map((day, index) =>
             day.day === 5 ? (
-              <Box d="flex" flexDir="row" justifyContent="space-between" flexGrow="1">
+              <Box
+                d="flex"
+                flexDir="row"
+                justifyContent="space-between"
+                flexGrow="1"
+                key={day.day + index}
+              >
                 <Link
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
-                  key={day.day + index}
                   fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
-                <Box>{EatenSwitch(day, refetch)}</Box>
+                <Box>{EatenSwitch(day, refetch, setQueryData)}</Box>
               </Box>
             ) : null
           )}
@@ -219,7 +223,7 @@ const DaysBlock = (props) => {
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
                 </Link>
-                <Box>{EatenSwitch(day, refetch)}</Box>
+                <Box>{EatenSwitch(day, refetch, setQueryData)}</Box>
               </Box>
             ) : null
           )}
@@ -230,20 +234,21 @@ const DaysBlock = (props) => {
 }
 export default DaysBlock
 
-const EatenSwitch = (meal, refetch) => {
+const EatenSwitch = (meal, refetch, setQueryData) => {
   const [updateMealMutation] = useMutation(updateMeal)
 
   const setEatenAlready = async () => {
     try {
-      await updateMealMutation({
+      const updated = await updateMealMutation({
         where: { id: meal.id },
         data: {
           already_eaten: !meal.already_eaten,
           timesEaten: meal.already_eaten ? meal.timesEaten + 1 : meal.timesEaten,
         },
       })
-      // await setQueryData(updated)
+      await setQueryData(updated)
       await refetch({ force: true })
+      // await invalidateQuery(getMeals)
       // alert("Success!" + JSON.stringify(updated))
     } catch (error) {
       console.log(error)

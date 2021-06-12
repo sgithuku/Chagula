@@ -1,10 +1,11 @@
-import { Box, Container, Heading, List, Spinner } from "@chakra-ui/react"
+import { Box, Container, Heading, List, Spinner, IconButton, Text } from "@chakra-ui/react"
 import MealListitem from "app/components/Meal_Listitem"
 import Nav from "app/components/Nav"
 import Layout from "app/layouts/Layout"
 import getMeals from "app/meals/queries/getMeals"
 import { useQuery } from "blitz"
 import React, { Suspense, useState } from "react"
+import { Notepad, NoteBlank } from "phosphor-react"
 // const ITEMS_PER_PAGE = 30
 
 export const MealsList = (props) => {
@@ -69,13 +70,14 @@ export const MealsList = (props) => {
       {/* <IconButton
         aria-label="Items with recipes"
         icon={withRecipes ? <Notepad /> : <NoteBlank />}
-        onClick={setWithRecipes((prev) => !prev)}
+        onClick={() => setWithRecipes(!withRecipes)}
         size="lg"
-      /> */}
+      />
+      {withRecipes ? <Text>Has Recipes</Text> : <Text>All Recipes</Text>} */}
 
       <Box w={"100%"}>
         <List d="flex" flexDir="row" flexWrap="wrap" justifyContent="center">
-          {meals?.hasRecipe.map((meal, index) => MealListitem(meal, refetch))}
+          {meals?.meals.map((meal, index) => MealListitem(meal, refetch))}
         </List>
       </Box>
     </Container>
