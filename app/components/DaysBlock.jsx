@@ -48,6 +48,7 @@ const DaysBlock = (props) => {
                 alignItems="center"
                 justifyContent="space-between"
                 flexGrow="1"
+                key={index}
               >
                 <Link
                   href={`/meals/${day.id}`}
@@ -76,11 +77,11 @@ const DaysBlock = (props) => {
                 alignItems="center"
                 justifyContent="space-between"
                 flexGrow="1"
+                key={day.day + index}
               >
                 <Link
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
-                  key={day.day + index}
                   fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
@@ -132,11 +133,11 @@ const DaysBlock = (props) => {
                 alignItems="center"
                 justifyContent="space-between"
                 flexGrow="1"
+                key={day.day + index}
               >
                 <Link
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
-                  key={day.day + index}
                   fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
@@ -160,11 +161,11 @@ const DaysBlock = (props) => {
                 alignItems="center"
                 justifyContent="space-between"
                 flexGrow="1"
+                key={day.day + index}
               >
                 <Link
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
-                  key={day.day + index}
                   fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
@@ -204,11 +205,16 @@ const DaysBlock = (props) => {
         <Box d="flex" flexDir="column" pl="3" justifyContent="space-between" flexGrow="1">
           {meals.hasDays.map((day, index) =>
             day.day === 6 ? (
-              <Box d="flex" flexDir="row" justifyContent="space-between" flexGrow="1">
+              <Box
+                d="flex"
+                flexDir="row"
+                justifyContent="space-between"
+                flexGrow="1"
+                key={day.day + index}
+              >
                 <Link
                   href={`/meals/${day.id}`}
                   className={day.already_eaten ? "strikethrough" : null}
-                  key={day.day + index}
                   fontWeight={day.day === date ? "700" : "inherit"}
                 >
                   {day.name.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))}
@@ -225,40 +231,32 @@ const DaysBlock = (props) => {
 export default DaysBlock
 
 const EatenSwitch = (meal, refetch) => {
-  const [updateMealMutation, { setQueryData }] = useMutation(updateMeal)
+  const [updateMealMutation] = useMutation(updateMeal)
 
-  // const setEatenAlready = async () => {
-  //   try {
-  //     const updated = await updateMealMutation({
-  //       where: { id: meal.id },
-  //       data: {
-  //         already_eaten: !meal.already_eaten,
-  //         timesEaten: already_eaten ? meal.timesEaten + 1 : meal.timesEaten,
-  //       },
-  //     })
-  //     await setQueryData(updated)
-  //     await refetch({ force: true })
-  //     // alert("Success!" + JSON.stringify(updated))
-  //   } catch (error) {
-  //     console.log(error)
-  //     // alert("Error adding meal " + JSON.stringify(error, null, 2))
-  //   }
-  // }
+  const setEatenAlready = async () => {
+    try {
+      await updateMealMutation({
+        where: { id: meal.id },
+        data: {
+          already_eaten: !meal.already_eaten,
+          timesEaten: meal.already_eaten ? meal.timesEaten + 1 : meal.timesEaten,
+        },
+      })
+      // await setQueryData(updated)
+      await refetch({ force: true })
+      // alert("Success!" + JSON.stringify(updated))
+    } catch (error) {
+      console.log(error)
+      // alert("Error adding meal " + JSON.stringify(error, null, 2))
+    }
+  }
 
   return (
     <FormControl>
       <Switch
         isChecked={meal.already_eaten}
         id="already_eaten"
-        onChange={() =>
-          updateMealMutation({
-            where: { id: meal.id },
-            data: {
-              already_eaten: !meal.already_eaten,
-              timesEaten: already_eaten ? meal.timesEaten + 1 : meal.timesEaten,
-            },
-          })
-        }
+        onChange={setEatenAlready}
         // colorScheme={colorMode === "dark" ? dark.blockSubtitle : light.blockSubtitle}
       />
     </FormControl>
