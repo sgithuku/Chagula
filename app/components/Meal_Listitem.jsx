@@ -28,7 +28,6 @@ const MealListitem = (meal, refetch) => {
       mr="3"
       d="flex"
       flexDir="row"
-      justifyContent="space-between"
       alignItems="center"
     >
       {/* <Text>Test</Text> */}

@@ -1,7 +1,7 @@
 // dark colour theme: https://www.canva.com/colors/color-palettes/avocados-in-sushi/
 export const dark = {
   text: "gray.50",
-  backgroundColor: "#20323e",
+  backgroundColor: "#20232a",
   blockSubtitle: "gray.500",
   button: "gray.900",
   switches: "#b6c59a",
@@ -14,7 +14,7 @@ export const light = {
   backgroundColor: "#fefefe",
   blockSubtitle: "#b6c59a",
   button: "gray.50",
-  switches: "#20323e",
+  switches: "#20232a",
   link: "",
   linkHover: "",
 }

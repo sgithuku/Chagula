@@ -1,5 +1,5 @@
 {
-  "name": "Chagula",
+  "name": "chagula",
   "version": "1.0.0",
   "scripts": {
     "dev": "blitz dev",
@@ -24,6 +24,13 @@
     ]
   },
   "dependencies": {
+    "@chakra-ui/react": "1.6.1",
+    "@emotion/react": "11.4.0",
+    "@emotion/styled": "11.3.0",
+    "chakra-ui-markdown-renderer": "1.1.0",
+    "framer-motion": "4.1.17",
+    "phosphor-react": "1.2.1",
+    "react-markdown": "5.0.3",
     "@prisma/client": "2.24.1",
     "@types/react": "17.0.11",
     "@types/preview-email": "2.0.0",
@@ -45,5 +52,7 @@
     "react-final-form": "6.5.3"
   },
   "private": true,
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "4.2.0"
+  }
 }

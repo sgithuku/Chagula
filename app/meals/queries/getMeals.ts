@@ -33,7 +33,7 @@ export default async function getMeals(
   const hasRecipe = await db.meal.findMany({
     where: {
       recipe: {
-        not: null,
+        not: null || "",
       },
     },
   })

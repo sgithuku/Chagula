@@ -121,6 +121,7 @@ const seedChoices = async () => {
       data: {
         name: `${choices[i]?.name}`,
         category: `${choices[i]?.category}`,
+        recipe: `${choices[i]?.recipe}`,
       },
     })
   }

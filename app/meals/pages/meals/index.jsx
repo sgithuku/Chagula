@@ -1,4 +1,4 @@
-import { Box, Container, Heading, List, Spinner, useColorMode } from "@chakra-ui/react"
+import { Box, Container, Heading, List, Spinner } from "@chakra-ui/react"
 import MealListitem from "app/components/Meal_Listitem"
 import Nav from "app/components/Nav"
 import Layout from "app/layouts/Layout"
@@ -8,13 +8,13 @@ import React, { Suspense, useState } from "react"
 // const ITEMS_PER_PAGE = 30
 
 export const MealsList = (props) => {
-  const { colorMode } = useColorMode()
+  // const { colorMode } = useColorMode()
   // const [withRecipes, setWithRecipes] = useState(true)
   // useEffect(() => {
   //   console.log("withRecipes changed")
   // }, [withRecipes])
 
-  const [meals, { refetch, isLoading, error }] = useQuery(getMeals, {
+  const [meals, { refetch }] = useQuery(getMeals, {
     where: {
       name: {
         contains: "",
@@ -22,7 +22,7 @@ export const MealsList = (props) => {
     },
     orderBy: { name: "asc" },
   })
-  console.log("render")
+  console.log("render", meals)
   // const flipRecipes = async () => {
   //   try {
   //     await setWithRecipes(!withRecipes)
@@ -35,7 +35,7 @@ export const MealsList = (props) => {
 
   // console.log(refetch)
 
-  const [search, setSearch] = useState("")
+  // const [search, setSearch] = useState("")
   // FIXME: This needs its own hook to work for some reason. useFetch may fix this but I don't understand react-query well enough yet.
   // const searchAction = (value) => {
   //   // console.log(value, search, isLoading)
@@ -75,11 +75,7 @@ export const MealsList = (props) => {
 
       <Box w={"100%"}>
         <List d="flex" flexDir="row" flexWrap="wrap" justifyContent="center">
-          {meals?.meals
-            .filter((meal) => {
-              return meal.recipe !== null
-            })
-            .map((meal, index) => MealListitem(meal, refetch))}
+          {meals?.hasRecipe.map((meal, index) => MealListitem(meal, refetch))}
         </List>
       </Box>
     </Container>
